@@ -2,9 +2,23 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "NorthStack | Digital Product Studio",
+  title: "NorthStack — We Build The Future",
   description:
-    "We design and build premium apps, platforms, and digital products for growing businesses.",
+    "NorthStack — we build the future. Custom software built around how your business actually works. Web apps, mobile platforms, SaaS, and automation tools.",
+  openGraph: {
+    title: "NorthStack — We Build The Future",
+    description:
+      "Custom software built around how your business actually works. Web apps, mobile platforms, SaaS, and automation tools.",
+    images: [{ url: "/northstackblackbglogo.png", width: 1080, height: 1080 }],
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "NorthStack — We Build The Future",
+    description:
+      "Custom software built around how your business actually works. Web apps, mobile platforms, SaaS, and automation tools.",
+    images: ["/northstackblackbglogo.png"],
+  },
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
