@@ -387,7 +387,7 @@ h1, h2, h3, h4 {
 }
 
 h1.hero-title {
-  font-size: clamp(60px, 8vw, 120px);
+  font-size: clamp(48px, 6vw, 80px);
   line-height: 0.9;
   margin-bottom: 20px;
   text-align: center;
@@ -677,9 +677,6 @@ h1.hero-title span:nth-child(2) {
   }
   .contact-heading {
     font-size: 36px;
-  }
-  h1.hero-title {
-    font-size: clamp(48px, 13vw, 120px);
   }
   .process-row {
     flex-direction: column;
