@@ -567,14 +567,83 @@ h1.hero-title span:nth-child(2) {
   color: #fff;
 }
 
+/* ─── Hamburger Button ─── */
+.hamburger-btn {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.hamburger-btn span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--text-primary);
+}
+
+/* ─── Mobile Menu Overlay ─── */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-color);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+}
+
+.mobile-menu-close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 24px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.mobile-menu-link {
+  font-family: "JetBrains Mono", "SF Mono", "Fira Code", Consolas, monospace;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.mobile-menu-link:hover {
+  color: #ffffff;
+}
+
 /* ─── Responsive ─── */
 @media (max-width: 1024px) {
   .services-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+  .service-card:nth-child(2n) {
+    border-right: none;
+  }
 }
 
 @media (max-width: 768px) {
+  .ns-nav {
+    display: none;
+  }
+  .hamburger-btn {
+    display: flex;
+  }
   .services-grid {
     grid-template-columns: 1fr;
   }
@@ -582,9 +651,25 @@ h1.hero-title span:nth-child(2) {
     border-right: none;
     border-bottom: 1px solid var(--border-color);
     min-height: auto;
+    padding: 40px 20px;
   }
   .service-card:last-child {
     border-bottom: none;
+  }
+  .contact-row {
+    flex-direction: column;
+  }
+  .contact-section {
+    padding: 80px 20px;
+  }
+  .section-title {
+    font-size: 36px;
+  }
+  .contact-heading {
+    font-size: 36px;
+  }
+  h1.hero-title {
+    font-size: clamp(40px, 10vw, 120px);
   }
   .process-row {
     flex-direction: column;
@@ -616,5 +701,6 @@ h1.hero-title span:nth-child(2) {
     flex-direction: column;
     gap: 20px;
     text-align: center;
+    padding: 30px 20px;
   }
 }

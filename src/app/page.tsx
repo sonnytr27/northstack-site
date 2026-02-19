@@ -81,6 +81,7 @@ export default function Home() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const container = scratchRef.current;
@@ -160,7 +161,47 @@ export default function Home() {
             </a>
           ))}
         </nav>
+        <button
+          type="button"
+          className="hamburger-btn"
+          onClick={() => setMenuOpen(true)}
+          aria-label="Open menu"
+        >
+          <span /><span /><span />
+        </button>
       </header>
+
+      {/* Mobile Menu */}
+      {menuOpen && (
+        <div className="mobile-menu">
+          <button
+            type="button"
+            className="mobile-menu-close"
+            onClick={() => setMenuOpen(false)}
+            aria-label="Close menu"
+          >
+            ✕
+          </button>
+          {[
+            { label: "SERVICES", href: "#services" },
+            { label: "PROCESS", href: "#process" },
+            { label: "START A PROJECT", href: "#contact" },
+          ].map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              className="mobile-menu-link"
+              onClick={(e) => {
+                e.preventDefault();
+                setMenuOpen(false);
+                scrollTo(link.href);
+              }}
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+      )}
 
       {/* Hero */}
       <section className="ns-hero">
