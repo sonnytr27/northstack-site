@@ -449,17 +449,8 @@ h1.hero-title span:nth-child(2) {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   position: relative;
-}
-
-.services-grid::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100vw;
-  height: 1px;
-  background: var(--border-color);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .service-card {
