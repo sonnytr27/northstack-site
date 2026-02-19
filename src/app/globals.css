@@ -441,7 +441,7 @@ h1.hero-title span:nth-child(2) {
 
 .service-card {
   border-right: 1px solid var(--border-color);
-  padding: 60px 40px;
+  padding: 60px 48px;
   transition: background 0.3s ease;
   position: relative;
   min-height: 400px;
@@ -661,7 +661,7 @@ h1.hero-title span:nth-child(2) {
     border-right: none;
     border-bottom: 1px solid var(--border-color);
     min-height: auto;
-    padding: 40px 20px;
+    padding: 40px 28px;
   }
   .service-card:last-child {
     border-bottom: none;
