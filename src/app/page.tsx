@@ -272,8 +272,8 @@ export default function Home() {
             },
             {
               num: "004",
-              name: "Automation & Tooling",
-              desc: "Bots, scrapers, data pipelines, internal dashboards - if it runs on code, we can build it.",
+              name: "Automation & Internal Tools",
+              desc: "Bots, scrapers, data pipelines, and internal dashboards that save your team hours every week. The stuff nobody sees, but everyone relies on.",
             },
           ].map((service) => (
             <div key={service.num} className="service-card">
