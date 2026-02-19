@@ -123,6 +123,19 @@ h1, h2, h3, h4 {
   position: relative;
 }
 
+.grid-lines {
+  position: absolute;
+  top: 0;
+  left: 80px;
+  right: 80px;
+  height: 100%;
+  border-left: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
+  pointer-events: none;
+  z-index: 0;
+}
+
+
 /* ─── Header ─── */
 .ns-header {
   display: flex;
@@ -175,18 +188,7 @@ h1, h2, h3, h4 {
   padding: 120px 40px;
   max-width: 700px;
   margin: 0 auto;
-  position: relative;
-}
-
-.contact-section::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100vw;
-  height: 1px;
-  background: var(--border-color);
+  border-top: 1px solid var(--border-color);
 }
 
 .contact-heading {
@@ -447,8 +449,8 @@ h1.hero-title span:nth-child(2) {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   position: relative;
-  border: 1px solid var(--border-color);
-  margin-bottom: 60px;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .service-card {
@@ -711,6 +713,10 @@ h1.hero-title span:nth-child(2) {
   }
   .ns-container {
     padding: 0 24px;
+  }
+  .grid-lines {
+    left: 24px;
+    right: 24px;
   }
   .ns-header {
     padding: 20px;

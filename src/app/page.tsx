@@ -247,6 +247,7 @@ export default function Home() {
 
       {/* Services */}
       <section id="services" className="ns-container">
+        <div className="grid-lines" />
         <div className="section-header">
           <h2 className="section-title">Services</h2>
         </div>
@@ -288,6 +289,7 @@ export default function Home() {
 
       {/* The Process */}
       <section id="process" className="ns-container">
+        <div className="grid-lines" />
         <div className="section-header">
           <h2 className="section-title">The Process</h2>
         </div>
