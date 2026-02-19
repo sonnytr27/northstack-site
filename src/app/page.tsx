@@ -288,7 +288,7 @@ export default function Home() {
       </section>
 
       {/* The Process */}
-      <section id="process" className="ns-container">
+      <section id="process" className="ns-container" style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.12)" }}>
         <div className="grid-lines" />
         <div className="section-header">
           <h2 className="section-title">The Process</h2>
