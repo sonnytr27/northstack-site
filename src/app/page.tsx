@@ -336,11 +336,11 @@ export default function Home() {
               value={projectType}
               onChange={setProjectType}
               options={[
-                { value: "web", label: "Web Application" },
-                { value: "mobile", label: "Mobile App" },
-                { value: "saas", label: "SaaS Platform" },
-                { value: "automation", label: "Automation / Tooling" },
-                { value: "other", label: "Something else" },
+                { value: "Web Application", label: "Web Application" },
+                { value: "Mobile App", label: "Mobile App" },
+                { value: "SaaS Platform", label: "SaaS Platform" },
+                { value: "Automation / Tooling", label: "Automation / Tooling" },
+                { value: "Something else", label: "Something else" },
               ]}
             />
             <div className="contact-field">
@@ -353,12 +353,12 @@ export default function Home() {
               value={budget}
               onChange={setBudget}
               options={[
-                { value: "0", label: "£0 – £1,000" },
-                { value: "1k", label: "£1k – £5k" },
-                { value: "5k", label: "£5k – £15k" },
-                { value: "15k", label: "£15k – £30k" },
-                { value: "30k", label: "£30k+" },
-                { value: "unsure", label: "Not sure yet" },
+                { value: "£0 – £1,000", label: "£0 – £1,000" },
+                { value: "£1k – £5k", label: "£1k – £5k" },
+                { value: "£5k – £15k", label: "£5k – £15k" },
+                { value: "£15k – £30k", label: "£15k – £30k" },
+                { value: "£30k+", label: "£30k+" },
+                { value: "Not sure yet", label: "Not sure yet" },
               ]}
             />
             {errorMessage && (
