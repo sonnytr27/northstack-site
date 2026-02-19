@@ -419,11 +419,29 @@ h1.hero-title span:nth-child(2) {
 /* ─── Section Header ─── */
 .section-header {
   padding: 50px 0 60px 48px;
-  border-top: 1px solid var(--border-color);
-  border-bottom: 1px solid var(--border-color);
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+  position: relative;
+}
+
+.section-header::before,
+.section-header::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  height: 1px;
+  background: var(--border-color);
+}
+
+.section-header::before {
+  top: 0;
+}
+
+.section-header::after {
+  bottom: 0;
 }
 
 .section-title {
@@ -438,7 +456,18 @@ h1.hero-title span:nth-child(2) {
 .services-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  border-bottom: 1px solid var(--border-color);
+  position: relative;
+}
+
+.services-grid::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  height: 1px;
+  background: var(--border-color);
 }
 
 .service-card {
