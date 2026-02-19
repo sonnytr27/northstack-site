@@ -212,6 +212,8 @@ export default function Home() {
 
       {/* Hero */}
       <section className="ns-hero">
+        <div className="hero-atmosphere-glow" />
+        <div className="hero-noise-overlay" />
         <div className="ns-container">
           <div className="hero-content">
             <h1
