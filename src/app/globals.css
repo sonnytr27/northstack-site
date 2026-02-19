@@ -679,7 +679,7 @@ h1.hero-title span:nth-child(2) {
     font-size: 36px;
   }
   h1.hero-title {
-    font-size: clamp(40px, 10vw, 120px);
+    font-size: clamp(48px, 13vw, 120px);
   }
   .process-row {
     flex-direction: column;
