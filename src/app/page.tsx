@@ -6,14 +6,20 @@ function Dropdown({
   label,
   placeholder,
   options,
+  value,
+  onChange,
 }: {
   label: React.ReactNode;
   placeholder: string;
   options: { value: string; label: string }[];
+  value?: string | null;
+  onChange?: (value: string) => void;
 }) {
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState<string | null>(null);
+  const [internalSelected, setInternalSelected] = useState<string | null>(null);
   const ref = useRef<HTMLDivElement>(null);
+
+  const selected = value !== undefined ? value : internalSelected;
 
   useEffect(() => {
     if (!open) return;
@@ -48,7 +54,8 @@ function Dropdown({
                 type="button"
                 className={`custom-dropdown-option ${selected === option.value ? "custom-dropdown-option--active" : ""}`}
                 onClick={() => {
-                  setSelected(option.value);
+                  setInternalSelected(option.value);
+                  onChange?.(option.value);
                   setOpen(false);
                 }}
               >
@@ -64,6 +71,16 @@ function Dropdown({
 
 export default function Home() {
   const scratchRef = useRef<HTMLDivElement>(null);
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [company, setCompany] = useState("");
+  const [projectType, setProjectType] = useState<string | null>(null);
+  const [projectDetails, setProjectDetails] = useState("");
+  const [budget, setBudget] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     const container = scratchRef.current;
@@ -267,56 +284,91 @@ export default function Home() {
       {/* Contact */}
       <section id="contact" className="contact-section">
         <h2 className="contact-heading">Start a project</h2>
-        <form
-          className="contact-form"
-          onSubmit={(e) => {
-            e.preventDefault();
-            window.location.href = "mailto:hello@northstack.dev";
-          }}
-        >
-          <div className="contact-row">
-            <div className="contact-field">
-              <label className="contact-label">Name</label>
-              <input type="text" className="contact-input" placeholder="Your name" required />
+        {isSuccess ? (
+          <div className="contact-form" style={{ textAlign: "center", paddingTop: 40, paddingBottom: 40 }}>
+            <p className="mono" style={{ fontSize: 18, lineHeight: 1.6 }}>
+              Thanks, {name}. We&apos;ll be in touch within 24 hours.
+            </p>
+          </div>
+        ) : (
+          <form
+            className="contact-form"
+            onSubmit={async (e) => {
+              e.preventDefault();
+              if (isSubmitting) return;
+              setIsSubmitting(true);
+              setErrorMessage("");
+              try {
+                const res = await fetch("/api/contact", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ name, email, company, projectType, projectDetails, budget }),
+                });
+                if (!res.ok) {
+                  const data = await res.json();
+                  throw new Error(data.error || "Something went wrong.");
+                }
+                setIsSuccess(true);
+              } catch (err) {
+                setErrorMessage(err instanceof Error ? err.message : "Something went wrong.");
+              } finally {
+                setIsSubmitting(false);
+              }
+            }}
+          >
+            <div className="contact-row">
+              <div className="contact-field">
+                <label className="contact-label">Name</label>
+                <input type="text" className="contact-input" placeholder="Your name" required value={name} onChange={(e) => setName(e.target.value)} />
+              </div>
+              <div className="contact-field">
+                <label className="contact-label">Email</label>
+                <input type="email" className="contact-input" placeholder="you@company.com" required value={email} onChange={(e) => setEmail(e.target.value)} />
+              </div>
             </div>
             <div className="contact-field">
-              <label className="contact-label">Email</label>
-              <input type="email" className="contact-input" placeholder="you@company.com" required />
+              <label className="contact-label">Company <span style={{ opacity: 0.5 }}>(optional)</span></label>
+              <input type="text" className="contact-input" placeholder="Company name" value={company} onChange={(e) => setCompany(e.target.value)} />
             </div>
-          </div>
-          <div className="contact-field">
-            <label className="contact-label">Company <span style={{ opacity: 0.5 }}>(optional)</span></label>
-            <input type="text" className="contact-input" placeholder="Company name" />
-          </div>
-          <Dropdown
-            label="What do you need?"
-            placeholder="Select a service"
-            options={[
-              { value: "web", label: "Web Application" },
-              { value: "mobile", label: "Mobile App" },
-              { value: "saas", label: "SaaS Platform" },
-              { value: "automation", label: "Automation / Tooling" },
-              { value: "other", label: "Something else" },
-            ]}
-          />
-          <div className="contact-field">
-            <label className="contact-label">Project details</label>
-            <textarea className="contact-input contact-textarea" placeholder="Tell us about your project, timeline, and any specific requirements..." rows={4} required />
-          </div>
-          <Dropdown
-            label="Budget range"
-            placeholder="Select a range"
-            options={[
-              { value: "0", label: "£0 – £1,000" },
-              { value: "1k", label: "£1k – £5k" },
-              { value: "5k", label: "£5k – £15k" },
-              { value: "15k", label: "£15k – £30k" },
-              { value: "30k", label: "£30k+" },
-              { value: "unsure", label: "Not sure yet" },
-            ]}
-          />
-          <button type="submit" className="contact-submit">SEND ENQUIRY →</button>
-        </form>
+            <Dropdown
+              label="What do you need?"
+              placeholder="Select a service"
+              value={projectType}
+              onChange={setProjectType}
+              options={[
+                { value: "web", label: "Web Application" },
+                { value: "mobile", label: "Mobile App" },
+                { value: "saas", label: "SaaS Platform" },
+                { value: "automation", label: "Automation / Tooling" },
+                { value: "other", label: "Something else" },
+              ]}
+            />
+            <div className="contact-field">
+              <label className="contact-label">Project details</label>
+              <textarea className="contact-input contact-textarea" placeholder="Tell us about your project, timeline, and any specific requirements..." rows={4} required value={projectDetails} onChange={(e) => setProjectDetails(e.target.value)} />
+            </div>
+            <Dropdown
+              label="Budget range"
+              placeholder="Select a range"
+              value={budget}
+              onChange={setBudget}
+              options={[
+                { value: "0", label: "£0 – £1,000" },
+                { value: "1k", label: "£1k – £5k" },
+                { value: "5k", label: "£5k – £15k" },
+                { value: "15k", label: "£15k – £30k" },
+                { value: "30k", label: "£30k+" },
+                { value: "unsure", label: "Not sure yet" },
+              ]}
+            />
+            {errorMessage && (
+              <p style={{ color: "#ff4444", fontSize: 14, marginTop: -8 }}>{errorMessage}</p>
+            )}
+            <button type="submit" className="contact-submit" disabled={isSubmitting}>
+              {isSubmitting ? "SENDING..." : "SEND ENQUIRY →"}
+            </button>
+          </form>
+        )}
       </section>
 
       {/* Footer */}
