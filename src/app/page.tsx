@@ -220,7 +220,7 @@ export default function Home() {
               <span>and shipped.</span>
             </h1>
             <div className="hero-meta">
-              <p style={{ color: "var(--text-secondary)", fontSize: 17, lineHeight: 1.6, maxWidth: 600, marginBottom: 50 }}>
+              <p style={{ color: "rgba(255, 255, 255, 0.6)", fontFamily: "'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, monospace", fontSize: 11, textTransform: "uppercase", letterSpacing: "0.05em", lineHeight: 1.8, maxWidth: 600, marginBottom: 50 }}>
                 Software built around how your business actually works.
               </p>
               <a

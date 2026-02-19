@@ -194,11 +194,10 @@ h1, h2, h3, h4 {
   font-size: 48px;
   text-align: center;
   margin-bottom: 60px;
-  font-family: "JetBrains Mono", "SF Mono", "Fira Code", Consolas, monospace;
+  font-family: "Inter", sans-serif;
   font-weight: 400;
   font-style: normal;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: -0.04em;
   line-height: 1.1;
 }
 
@@ -425,11 +424,10 @@ h1.hero-title span:nth-child(2) {
 
 .section-title {
   font-size: 48px;
-  font-family: "JetBrains Mono", "SF Mono", "Fira Code", Consolas, monospace;
+  font-family: "Inter", sans-serif;
   font-weight: 400;
   font-style: normal;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: -0.04em;
 }
 
 /* ─── Services ─── */
