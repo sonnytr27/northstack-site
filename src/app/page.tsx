@@ -133,7 +133,14 @@ export default function Home() {
 
       {/* Header */}
       <header className="ns-header">
-        <div className="ns-logo">
+        <a
+          href="#"
+          className="ns-logo"
+          onClick={(e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+        >
           <img
             src="/logo.png"
             alt=""
@@ -141,7 +148,7 @@ export default function Home() {
             style={{ mixBlendMode: "screen" }}
           />
           NORTHSTACK
-        </div>
+        </a>
         <nav className="ns-nav">
           {[
             { label: "SERVICES", href: "#services" },
