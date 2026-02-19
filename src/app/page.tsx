@@ -432,6 +432,9 @@ export default function Home() {
           />
           NORTHSTACK
         </div>
+        <a href="mailto:northstackcc@outlook.com" className="footer-email mono">
+          NORTHSTACKCC@OUTLOOK.COM
+        </a>
         <div className="footer-credit mono">
           © 2026 NORTHSTACK LTD. ALL RIGHTS RESERVED.
         </div>
