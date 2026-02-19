@@ -258,17 +258,17 @@ export default function Home() {
             {
               num: "001",
               name: "Web Applications",
-              desc: "Custom platforms and dashboards that run your business better - built around how your team actually works.",
+              desc: "Custom platforms and dashboards built around how your team actually works. Not off-the-shelf templates - real software that fits your workflow.",
             },
             {
               num: "002",
               name: "Mobile Platforms",
-              desc: "Apps people want to open twice. iOS, Android, or both - from clean MVP to full-scale product.",
+              desc: "iOS, Android, or both - from first prototype to full-scale product. Designed to feel native, built to perform, and ready for the App Store.",
             },
             {
               num: "003",
               name: "SaaS & Tooling",
-              desc: "Subscription platforms, marketplaces, and multi-user systems. Complex architecture, clean execution.",
+              desc: "Subscription platforms, marketplaces, and multi-user systems. We handle the complex architecture so your users get a clean, simple experience.",
             },
             {
               num: "004",
@@ -300,22 +300,22 @@ export default function Home() {
             {
               num: "001",
               name: "Discovery",
-              desc: "We learn exactly how your business works, then define the core problem and map out the most efficient technical path.",
+              desc: "We learn how your business actually runs - not just what you think you need. We define the core problem, map out the technical path, and scope it properly before writing a single line of code.",
             },
             {
               num: "002",
               name: "Design",
-              desc: "High-fidelity UI/UX that aligns with your brand and user expectations.",
+              desc: "High-fidelity UI/UX designed around your brand and your users. You'll see exactly what the product looks like and how it flows before we build anything.",
             },
             {
               num: "003",
               name: "Build",
-              desc: "Clean, modular code built to scale. Test-driven development with regular deliverables so nothing gets lost in translation.",
+              desc: "Clean, modular code built to scale. Regular deliverables throughout so you're never in the dark, and nothing gets lost in translation.",
             },
             {
               num: "004",
               name: "Launch",
-              desc: "Deployment to production, performance monitoring, and ongoing support. We don't disappear after go-live.",
+              desc: "Deployment to production, performance monitoring, and ongoing support. We don't disappear after go-live - we make sure it runs.",
             },
           ].map((step) => (
             <div key={step.num} className="service-card">
