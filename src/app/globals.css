@@ -611,12 +611,16 @@ h1.hero-title span:nth-child(2) {
 .footer-credit {
   color: var(--text-secondary);
   font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
 .footer-email {
   color: var(--text-secondary);
   text-decoration: none;
   font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
   transition: color 0.2s ease;
 }
 
