@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="4" fill="#0a0a0c"/>
+  <!-- Top-left chevron -->
+  <polygon points="3,3 17,3 11,14 3,14" fill="white"/>
+  <!-- Top-right parallelogram -->
+  <polygon points="18,3 29,3 25,10 18,10" fill="white"/>
+  <!-- Bottom-left parallelogram -->
+  <polygon points="7,22 14,22 14,29 3,29" fill="white"/>
+  <!-- Bottom-right chevron -->
+  <polygon points="21,18 29,18 29,29 15,29" fill="white"/>
+</svg>
