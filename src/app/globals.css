@@ -440,11 +440,10 @@ h1.hero-title span:nth-child(2) {
   grid-template-columns: repeat(4, 1fr);
   position: relative;
   border-top: 1px solid var(--border-color);
-  border-bottom: 1px solid var(--border-color);
 }
 
-#process .services-grid {
-  border-bottom: none;
+#services .services-grid {
+  border-bottom: 1px solid var(--border-color);
 }
 
 #process .services-grid::after {
