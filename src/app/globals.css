@@ -185,7 +185,7 @@ h1, h2, h3, h4 {
 /* ─── Contact Dropdown ─── */
 /* ─── Contact Form ─── */
 .contact-section {
-  padding: 120px 40px;
+  padding: 70px 40px 120px;
   max-width: 700px;
   margin: 0 auto;
 }
@@ -193,7 +193,7 @@ h1, h2, h3, h4 {
 .contact-heading {
   font-size: 48px;
   text-align: center;
-  margin-bottom: 120px;
+  margin-bottom: 70px;
   font-family: "Inter", sans-serif;
   font-weight: 400;
   font-style: normal;
