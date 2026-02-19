@@ -563,12 +563,23 @@ h1.hero-title span:nth-child(2) {
 /* ─── Footer ─── */
 .ns-footer {
   padding: 40px;
-  border-top: 1px solid var(--border-color);
   display: flex;
   justify-content: space-between;
   align-items: center;
   max-width: 1400px;
   margin: 0 auto;
+  position: relative;
+}
+
+.ns-footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  height: 1px;
+  background: var(--border-color);
 }
 
 .footer-credit {
