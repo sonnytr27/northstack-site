@@ -423,21 +423,23 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="ns-footer">
-        <div className="ns-logo">
-          <img
-            src="/logo.png"
-            alt=""
-            className="h-[14px] w-auto"
-            style={{ mixBlendMode: "screen" }}
-          />
-          NORTHSTACK
+        <div className="footer-centre">
+          <div className="ns-logo">
+            <img
+              src="/logo.png"
+              alt=""
+              className="h-[14px] w-auto"
+              style={{ mixBlendMode: "screen" }}
+            />
+            NORTHSTACK
+          </div>
+          <div className="footer-credit mono">
+            © 2026 NORTHSTACK LTD. ALL RIGHTS RESERVED.
+          </div>
         </div>
         <a href="mailto:northstackcc@outlook.com" className="footer-email mono">
           NORTHSTACKCC@OUTLOOK.COM
         </a>
-        <div className="footer-credit mono">
-          © 2026 NORTHSTACK LTD. ALL RIGHTS RESERVED.
-        </div>
       </footer>
     </>
   );

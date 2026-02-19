@@ -590,11 +590,18 @@ h1.hero-title span:nth-child(2) {
 .ns-footer {
   padding: 40px;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
   max-width: 1400px;
   margin: 0 auto;
   position: relative;
+}
+
+.footer-centre {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
 }
 
 .footer-email {
@@ -603,6 +610,9 @@ h1.hero-title span:nth-child(2) {
   font-size: 11px;
   letter-spacing: 0.05em;
   transition: color 0.2s ease;
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
 }
 
 .footer-email:hover {
@@ -783,5 +793,9 @@ h1.hero-title span:nth-child(2) {
     gap: 20px;
     text-align: center;
     padding: 30px 20px;
+  }
+  .footer-email {
+    position: static;
+    margin-top: 8px;
   }
 }
