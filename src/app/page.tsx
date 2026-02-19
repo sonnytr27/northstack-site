@@ -1,65 +1,339 @@
-import Image from "next/image";
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+
+function Dropdown({
+  label,
+  placeholder,
+  options,
+}: {
+  label: React.ReactNode;
+  placeholder: string;
+  options: { value: string; label: string }[];
+}) {
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState<string | null>(null);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const handleClick = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [open]);
+
+  const selectedLabel = options.find((o) => o.value === selected)?.label;
+
+  return (
+    <div className="contact-field">
+      <span className="contact-label">{label}</span>
+      <div className="custom-dropdown" ref={ref}>
+        <button
+          type="button"
+          className={`custom-dropdown-trigger ${selected ? "" : "custom-dropdown-trigger--placeholder"}`}
+          onClick={() => setOpen(!open)}
+        >
+          <span>{selectedLabel || placeholder}</span>
+          <span className="custom-dropdown-chevron">▼</span>
+        </button>
+        {open && (
+          <div className="custom-dropdown-list">
+            {options.map((option) => (
+              <button
+                key={option.value}
+                type="button"
+                className={`custom-dropdown-option ${selected === option.value ? "custom-dropdown-option--active" : ""}`}
+                onClick={() => {
+                  setSelected(option.value);
+                  setOpen(false);
+                }}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
 
 export default function Home() {
+  const scratchRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = scratchRef.current;
+    if (!container) return;
+
+    for (let i = 0; i < 15; i++) {
+      const scratch = document.createElement("div");
+      scratch.classList.add("scratch");
+
+      const width = Math.random() * 200 + 50;
+      const height = Math.random() * 1 + 0.5;
+      const top = Math.random() * 100;
+      const left = Math.random() * 100;
+      const rotation = Math.random() * 360;
+      const delay = Math.random() * 5;
+      const duration = Math.random() * 10 + 5;
+
+      scratch.style.width = `${width}px`;
+      scratch.style.height = `${height}px`;
+      scratch.style.top = `${top}%`;
+      scratch.style.left = `${left}%`;
+      scratch.style.transform = `rotate(${rotation}deg)`;
+      scratch.style.animationDelay = `${delay}s`;
+      scratch.style.animationDuration = `${duration}s`;
+
+      container.appendChild(scratch);
+    }
+
+    return () => {
+      container.innerHTML = "";
+    };
+  }, []);
+
+  const scrollTo = (href: string) => {
+    const target = document.querySelector(href);
+    if (target) {
+      const navbarHeight = 91;
+      const y = target.getBoundingClientRect().top + window.scrollY - navbarHeight;
+      window.scrollTo({ top: y, behavior: "smooth" });
+    }
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <>
+      {/* Overlays */}
+      <div className="noise-layer" />
+      <div className="scanline" />
+      <div className="scratch-layer" ref={scratchRef} />
+
+      {/* Header */}
+      <header className="ns-header">
+        <div className="ns-logo">
+          <img
+            src="/logo.png"
+            alt=""
+            className="h-[16px] w-auto"
+            style={{ mixBlendMode: "screen" }}
+          />
+          NORTHSTACK
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <nav className="ns-nav">
+          {[
+            { label: "SERVICES", href: "#services" },
+            { label: "PROCESS", href: "#process" },
+            { label: "START A PROJECT", href: "#contact" },
+          ].map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              className="ns-nav-link"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollTo(link.href);
+              }}
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
+      </header>
+
+      {/* Hero */}
+      <section className="ns-hero">
+        <div className="ns-container">
+          <div className="hero-content">
+            <h1
+              className="hero-title"
+              style={{
+                fontFamily: "'Fraunces', serif",
+                fontWeight: 900,
+                fontStyle: "italic",
+                fontVariationSettings: "'SOFT' 50, 'WONK' 1",
+              }}
+            >
+              <span>Your vision, built</span>
+              <span>and shipped.</span>
+            </h1>
+            <div className="hero-meta">
+              <p style={{ color: "var(--text-secondary)", fontSize: 17, lineHeight: 1.6, maxWidth: 600, marginBottom: 50 }}>
+                Software built around how your business actually works.
+              </p>
+              <a
+                href="#contact"
+                className="hero-btn-primary"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollTo("#contact");
+                }}
+              >
+                START A PROJECT →
+              </a>
+            </div>
+          </div>
         </div>
-      </main>
-    </div>
+      </section>
+
+      {/* Services */}
+      <section id="services" className="ns-container">
+        <div className="grid-lines" />
+        <div className="section-header">
+          <h2 className="section-title">Services</h2>
+        </div>
+        <div className="services-grid">
+          {[
+            {
+              num: "001",
+              name: "Web Applications",
+              desc: "Custom platforms and dashboards that run your business better - built around how your team actually works.",
+            },
+            {
+              num: "002",
+              name: "Mobile Platforms",
+              desc: "Apps people want to open twice. iOS, Android, or both - from clean MVP to full-scale product.",
+            },
+            {
+              num: "003",
+              name: "SaaS & Tooling",
+              desc: "Subscription platforms, marketplaces, and multi-user systems. Complex architecture, clean execution.",
+            },
+            {
+              num: "004",
+              name: "Automation & Tooling",
+              desc: "Bots, scrapers, data pipelines, internal dashboards - if it runs on code, we can build it.",
+            },
+          ].map((service) => (
+            <div key={service.num} className="service-card">
+              <div>
+                <div className="mono" style={{ marginBottom: 20 }}>
+                  {service.num}
+                </div>
+                <h3 className="service-name">{service.name}</h3>
+                <p className="service-desc">{service.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* The Process */}
+      <section id="process" className="ns-container">
+        <div className="grid-lines" />
+        <div className="section-header">
+          <h2 className="section-title">The Process</h2>
+        </div>
+        <div className="services-grid">
+          {[
+            {
+              num: "001",
+              name: "Discovery",
+              desc: "We learn exactly how your business works, then define the core problem and map out the most efficient technical path.",
+            },
+            {
+              num: "002",
+              name: "Design",
+              desc: "High-fidelity UI/UX that aligns with your brand and user expectations.",
+            },
+            {
+              num: "003",
+              name: "Build",
+              desc: "Clean, modular code built to scale. Test-driven development with regular deliverables so nothing gets lost in translation.",
+            },
+            {
+              num: "004",
+              name: "Launch",
+              desc: "Deployment to production, performance monitoring, and ongoing support. We don't disappear after go-live.",
+            },
+          ].map((step) => (
+            <div key={step.num} className="service-card">
+              <div>
+                <div className="mono" style={{ marginBottom: 20 }}>
+                  {step.num}
+                </div>
+                <h3 className="service-name">{step.name}</h3>
+                <p className="service-desc">{step.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section id="contact" className="contact-section">
+        <h2 className="contact-heading">Start a project</h2>
+        <form
+          className="contact-form"
+          onSubmit={(e) => {
+            e.preventDefault();
+            window.location.href = "mailto:hello@northstack.dev";
+          }}
+        >
+          <div className="contact-row">
+            <div className="contact-field">
+              <label className="contact-label">Name</label>
+              <input type="text" className="contact-input" placeholder="Your name" required />
+            </div>
+            <div className="contact-field">
+              <label className="contact-label">Email</label>
+              <input type="email" className="contact-input" placeholder="you@company.com" required />
+            </div>
+          </div>
+          <div className="contact-field">
+            <label className="contact-label">Company <span style={{ opacity: 0.5 }}>(optional)</span></label>
+            <input type="text" className="contact-input" placeholder="Company name" />
+          </div>
+          <Dropdown
+            label="What do you need?"
+            placeholder="Select a service"
+            options={[
+              { value: "web", label: "Web Application" },
+              { value: "mobile", label: "Mobile App" },
+              { value: "saas", label: "SaaS Platform" },
+              { value: "automation", label: "Automation / Tooling" },
+              { value: "other", label: "Something else" },
+            ]}
+          />
+          <div className="contact-field">
+            <label className="contact-label">Project details</label>
+            <textarea className="contact-input contact-textarea" placeholder="Tell us about your project, timeline, and any specific requirements..." rows={4} required />
+          </div>
+          <Dropdown
+            label="Budget range"
+            placeholder="Select a range"
+            options={[
+              { value: "0", label: "£0 – £1,000" },
+              { value: "1k", label: "£1k – £5k" },
+              { value: "5k", label: "£5k – £15k" },
+              { value: "15k", label: "£15k – £30k" },
+              { value: "30k", label: "£30k+" },
+              { value: "unsure", label: "Not sure yet" },
+            ]}
+          />
+          <button type="submit" className="contact-submit">SEND ENQUIRY →</button>
+        </form>
+      </section>
+
+      {/* Footer */}
+      <footer className="ns-footer">
+        <div className="ns-logo">
+          <img
+            src="/logo.png"
+            alt=""
+            className="h-[14px] w-auto"
+            style={{ mixBlendMode: "screen" }}
+          />
+          NORTHSTACK
+        </div>
+        <div className="footer-credit mono">
+          © 2026 NORTHSTACK LTD. ALL RIGHTS RESERVED.
+        </div>
+      </footer>
+    </>
   );
 }

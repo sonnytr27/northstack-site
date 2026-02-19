@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- N shape - top-left to bottom-right diagonal with verticals -->
+  <path d="M6 6 L6 26 L10 26 L10 14 L22 26 L26 26 L26 6 L22 6 L22 18 L10 6 Z" fill="white"/>
+  <!-- Stacked accent bar to suggest the "S" / stack motif -->
+  <rect x="10" y="28" width="12" height="3" rx="1" fill="white" opacity="0.5"/>
+</svg>
