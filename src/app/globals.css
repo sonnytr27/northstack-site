@@ -440,9 +440,14 @@ h1.hero-title span:nth-child(2) {
   grid-template-columns: repeat(4, 1fr);
   position: relative;
   border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
 }
 
-.services-grid::after {
+#process .services-grid {
+  border-bottom: none;
+}
+
+#process .services-grid::after {
   content: "";
   position: absolute;
   bottom: 0;
