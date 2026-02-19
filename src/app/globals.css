@@ -609,6 +609,8 @@ h1.hero-title span:nth-child(2) {
 }
 
 .footer-credit {
+  flex: 1;
+  text-align: left;
   color: var(--text-secondary);
   font-size: 0.75rem;
   text-transform: uppercase;
@@ -616,6 +618,8 @@ h1.hero-title span:nth-child(2) {
 }
 
 .footer-email {
+  flex: 1;
+  text-align: right;
   color: var(--text-secondary);
   text-decoration: none;
   font-size: 0.75rem;
