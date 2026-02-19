@@ -423,9 +423,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="ns-footer">
-        <div className="footer-credit mono">
-          © 2026 NORTHSTACK LTD. ALL RIGHTS RESERVED.
-        </div>
+        <span className="footer-credit">© 2026 NorthStack Ltd.</span>
         <div className="ns-logo">
           <img
             src="/logo.png"
@@ -435,8 +433,8 @@ export default function Home() {
           />
           NORTHSTACK
         </div>
-        <a href="mailto:northstackcc@outlook.com" className="footer-email mono">
-          NORTHSTACKCC@OUTLOOK.COM
+        <a href="mailto:northstackcc@outlook.com" className="footer-email">
+          northstackcc@outlook.com
         </a>
       </footer>
     </>
