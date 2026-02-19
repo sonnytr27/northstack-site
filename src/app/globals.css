@@ -425,8 +425,7 @@ h1.hero-title span:nth-child(2) {
   position: relative;
 }
 
-.section-header::before,
-.section-header::after {
+.section-header::before {
   content: "";
   position: absolute;
   left: 50%;
@@ -434,14 +433,7 @@ h1.hero-title span:nth-child(2) {
   width: 100vw;
   height: 1px;
   background: var(--border-color);
-}
-
-.section-header::before {
   top: 0;
-}
-
-.section-header::after {
-  bottom: 0;
 }
 
 .section-title {
