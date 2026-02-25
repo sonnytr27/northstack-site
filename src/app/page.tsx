@@ -403,7 +403,7 @@ export default function Home() {
               value={budget}
               onChange={setBudget}
               options={[
-                { value: "£0 – £1,000", label: "£0 – £1,000" },
+                { value: "£0 - £1k", label: "£0 - £1k" },
                 { value: "£1k – £5k", label: "£1k – £5k" },
                 { value: "£5k – £15k", label: "£5k – £15k" },
                 { value: "£15k – £30k", label: "£15k – £30k" },
