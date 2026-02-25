@@ -315,7 +315,7 @@ export default function Home() {
             {
               num: "004",
               name: "Launch",
-              desc: "Deployment to production, performance monitoring, and ongoing support. We don't disappear after go-live - we make sure it runs.",
+              desc: "Live deployment, performance monitoring, and ongoing iteration. The product ships, then it evolves.",
             },
           ].map((step) => (
             <div key={step.num} className="service-card">
