@@ -33,6 +33,7 @@ export async function POST(request: Request) {
     await resend.emails.send({
       from: "NORTHSTACK <sonny@northstack.cc>",
       to: "northstackcc@gmail.com",
+      reply_to: email,
       subject: `New enquiry from ${safeName}`,
       html: `
         <h2>New Project Enquiry</h2>
