@@ -433,8 +433,8 @@ export default function Home() {
           />
           NORTHSTACK
         </div>
-        <a href="mailto:northstackcc@outlook.com" className="footer-email">
-          northstackcc@outlook.com
+        <a href="mailto:sonny@northstack.cc" className="footer-email">
+          sonny@northstack.cc
         </a>
       </footer>
     </>
