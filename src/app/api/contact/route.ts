@@ -31,8 +31,8 @@ export async function POST(request: Request) {
     const safeBudget = escapeHtml(budget || "Not specified");
 
     await resend.emails.send({
-      from: "NorthStack <onboarding@resend.dev>",
-      to: "northstackcc@outlook.com",
+      from: "NorthStack <sonny@northstack.cc>",
+      to: "northstackcc@gmail.com",
       subject: `New enquiry from ${safeName}`,
       html: `
         <h2>New Project Enquiry</h2>
