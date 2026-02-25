@@ -251,14 +251,14 @@ export default function Home() {
       <section id="services" className="ns-container">
         <div className="grid-lines" />
         <div className="section-header">
-          <h2 className="section-title">Services</h2>
+          <h2 className="section-title">What We Build</h2>
         </div>
         <div className="services-grid">
           {[
             {
               num: "001",
               name: "Web Applications",
-              desc: "Custom platforms and dashboards built around how your team actually works. Not off-the-shelf templates - real software that fits your workflow.",
+              desc: "Platforms and dashboards built around how your team actually works. Not templates. Real software that replaces the bloated SaaS you're overpaying for.",
             },
             {
               num: "002",
@@ -268,12 +268,12 @@ export default function Home() {
             {
               num: "003",
               name: "SaaS & Tooling",
-              desc: "Subscription platforms, marketplaces, and multi-user systems. We handle the complex architecture so your users get a clean, simple experience.",
+              desc: "Subscription platforms, marketplaces, and multi-user systems. Complex architecture, clean experience, without the enterprise price tag.",
             },
             {
               num: "004",
               name: "Automation & Internal Tools",
-              desc: "Bots, scrapers, data pipelines, and internal dashboards that save your team hours every week. The stuff nobody sees, but everyone relies on.",
+              desc: "Bots, scrapers, data pipelines, internal dashboards. The invisible tools that save your team hours every week. Built fast.",
             },
           ].map((service) => (
             <div key={service.num} className="service-card">
@@ -293,24 +293,24 @@ export default function Home() {
       <section id="process" className="ns-container">
         <div className="grid-lines" />
         <div className="section-header">
-          <h2 className="section-title">The Process</h2>
+          <h2 className="section-title">How It Works</h2>
         </div>
         <div className="services-grid">
           {[
             {
               num: "001",
               name: "Discovery",
-              desc: "We learn how your business actually runs - not just what you think you need. We define the core problem, map out the technical path, and scope it properly before writing a single line of code.",
+              desc: "We learn how your business actually runs, not just what you think you need. Core problem defined, technical path mapped, properly scoped before a line of code is written.",
             },
             {
               num: "002",
               name: "Design",
-              desc: "High-fidelity UI/UX designed around your brand and your users. You'll see exactly what the product looks like and how it flows before we build anything.",
+              desc: "High-fidelity UI/UX built around your brand and your users. You see exactly what you're getting before we build anything.",
             },
             {
               num: "003",
               name: "Build",
-              desc: "Clean, modular code built to scale. Regular deliverables throughout so you're never in the dark, and nothing gets lost in translation.",
+              desc: "Fast, focused development with deliverables every week. You see progress constantly and can course-correct in real time.",
             },
             {
               num: "004",
