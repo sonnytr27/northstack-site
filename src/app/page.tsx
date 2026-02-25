@@ -151,8 +151,8 @@ export default function Home() {
         </a>
         <nav className="ns-nav">
           {[
-            { label: "SERVICES", href: "#services" },
-            { label: "PROCESS", href: "#process" },
+            { label: "WHAT WE BUILD", href: "#services" },
+            { label: "HOW IT WORKS", href: "#process" },
             { label: "START A PROJECT", href: "#contact" },
           ].map((link) => (
             <a
@@ -190,8 +190,8 @@ export default function Home() {
             ✕
           </button>
           {[
-            { label: "SERVICES", href: "#services" },
-            { label: "PROCESS", href: "#process" },
+            { label: "WHAT WE BUILD", href: "#services" },
+            { label: "HOW IT WORKS", href: "#process" },
             { label: "START A PROJECT", href: "#contact" },
           ].map((link) => (
             <a
