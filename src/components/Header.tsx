@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-
-type NavLink = { label: string; href: string };
+import type { NavLink } from "@/data/nav";
 
 export default function Header({
   mode,
@@ -47,23 +46,26 @@ export default function Header({
           NORTHSTACK
         </a>
         <nav className="ns-nav">
-          {links.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className="ns-nav-link"
-              onClick={
-                mode === "scroll"
-                  ? (e) => {
-                      e.preventDefault();
-                      scrollTo(link.href);
-                    }
-                  : undefined
-              }
-            >
-              {link.label}
-            </a>
-          ))}
+          {links.map((link) => {
+            const isAnchor = mode === "scroll" && !link.route;
+            return (
+              <a
+                key={link.label}
+                href={link.href}
+                className="ns-nav-link"
+                onClick={
+                  isAnchor
+                    ? (e) => {
+                        e.preventDefault();
+                        scrollTo(link.href);
+                      }
+                    : undefined
+                }
+              >
+                {link.label}
+              </a>
+            );
+          })}
         </nav>
         <button
           type="button"
@@ -86,24 +88,27 @@ export default function Header({
           >
             ✕
           </button>
-          {links.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className="mobile-menu-link"
-              onClick={
-                mode === "scroll"
-                  ? (e) => {
-                      e.preventDefault();
-                      setMenuOpen(false);
-                      scrollTo(link.href);
-                    }
-                  : () => setMenuOpen(false)
-              }
-            >
-              {link.label}
-            </a>
-          ))}
+          {links.map((link) => {
+            const isAnchor = mode === "scroll" && !link.route;
+            return (
+              <a
+                key={link.label}
+                href={link.href}
+                className="mobile-menu-link"
+                onClick={
+                  isAnchor
+                    ? (e) => {
+                        e.preventDefault();
+                        setMenuOpen(false);
+                        scrollTo(link.href);
+                      }
+                    : () => setMenuOpen(false)
+                }
+              >
+                {link.label}
+              </a>
+            );
+          })}
         </div>
       )}
     </>

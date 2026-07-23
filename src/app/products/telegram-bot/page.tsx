@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Overlays from "@/components/Overlays";
+import { ROUTE_NAV } from "@/data/nav";
 
 /* ─── Telegram Chat Mockup ─── */
 function TelegramMockup() {
@@ -278,14 +279,7 @@ export default function TelegramBotPage() {
     <>
       <Overlays />
 
-      <Header
-        mode="route"
-        links={[
-          { label: "SERVICES", href: "/" },
-          { label: "PRODUCTS", href: "/products/telegram-bot" },
-          { label: "START A PROJECT", href: "/#contact" },
-        ]}
-      />
+      <Header mode="route" links={ROUTE_NAV} />
 
       {/* Hero — Split Layout */}
       <section className="product-hero">

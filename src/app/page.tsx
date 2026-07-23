@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Overlays from "@/components/Overlays";
+import { SCROLL_NAV } from "@/data/nav";
 
 function Dropdown({
   label,
@@ -96,14 +97,7 @@ export default function Home() {
     <>
       <Overlays />
 
-      <Header
-        mode="scroll"
-        links={[
-          { label: "SERVICES", href: "#services" },
-          { label: "PRODUCTS", href: "#products" },
-          { label: "START A PROJECT", href: "#contact" },
-        ]}
-      />
+      <Header mode="scroll" links={SCROLL_NAV} />
 
       {/* Hero */}
       <section className="ns-hero">
