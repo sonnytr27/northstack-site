@@ -1,6 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import Overlays from "@/components/Overlays";
 
 function Dropdown({
   label,
@@ -70,8 +73,6 @@ function Dropdown({
 }
 
 export default function Home() {
-  const scratchRef = useRef<HTMLDivElement>(null);
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [company, setCompany] = useState("");
@@ -81,39 +82,6 @@ export default function Home() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const container = scratchRef.current;
-    if (!container) return;
-
-    for (let i = 0; i < 15; i++) {
-      const scratch = document.createElement("div");
-      scratch.classList.add("scratch");
-
-      const width = Math.random() * 200 + 50;
-      const height = Math.random() * 1 + 0.5;
-      const top = Math.random() * 100;
-      const left = Math.random() * 100;
-      const rotation = Math.random() * 360;
-      const delay = Math.random() * 5;
-      const duration = Math.random() * 10 + 5;
-
-      scratch.style.width = `${width}px`;
-      scratch.style.height = `${height}px`;
-      scratch.style.top = `${top}%`;
-      scratch.style.left = `${left}%`;
-      scratch.style.transform = `rotate(${rotation}deg)`;
-      scratch.style.animationDelay = `${delay}s`;
-      scratch.style.animationDuration = `${duration}s`;
-
-      container.appendChild(scratch);
-    }
-
-    return () => {
-      container.innerHTML = "";
-    };
-  }, []);
 
   const scrollTo = (href: string) => {
     const target = document.querySelector(href);
@@ -126,89 +94,16 @@ export default function Home() {
 
   return (
     <>
-      {/* Overlays */}
-      <div className="noise-layer" />
-      <div className="scanline" />
-      <div className="scratch-layer" ref={scratchRef} />
+      <Overlays />
 
-      {/* Header */}
-      <header className="ns-header">
-        <a
-          href="#"
-          className="ns-logo"
-          onClick={(e) => {
-            e.preventDefault();
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }}
-        >
-          <img
-            src="/logo.png"
-            alt=""
-            className="h-[16px] w-auto"
-            style={{ mixBlendMode: "screen" }}
-          />
-          NORTHSTACK
-        </a>
-        <nav className="ns-nav">
-          {[
-            { label: "WHAT WE BUILD", href: "#services" },
-            { label: "HOW IT WORKS", href: "#process" },
-            { label: "START A PROJECT", href: "#contact" },
-          ].map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className="ns-nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                scrollTo(link.href);
-              }}
-            >
-              {link.label}
-            </a>
-          ))}
-        </nav>
-        <button
-          type="button"
-          className="hamburger-btn"
-          onClick={() => setMenuOpen(true)}
-          aria-label="Open menu"
-        >
-          <span /><span /><span />
-        </button>
-      </header>
-
-      {/* Mobile Menu */}
-      {menuOpen && (
-        <div className="mobile-menu">
-          <button
-            type="button"
-            className="mobile-menu-close"
-            onClick={() => setMenuOpen(false)}
-            aria-label="Close menu"
-          >
-            ✕
-          </button>
-          {[
-            { label: "WHAT WE BUILD", href: "#services" },
-            { label: "HOW IT WORKS", href: "#process" },
-            { label: "START A PROJECT", href: "#contact" },
-          ].map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className="mobile-menu-link"
-              onClick={(e) => {
-                e.preventDefault();
-                setMenuOpen(false);
-                scrollTo(link.href);
-              }}
-            >
-              {link.label}
-            </a>
-          ))}
-        </div>
-      )}
+      <Header
+        mode="scroll"
+        links={[
+          { label: "SERVICES", href: "#services" },
+          { label: "PRODUCTS", href: "#products" },
+          { label: "START A PROJECT", href: "#contact" },
+        ]}
+      />
 
       {/* Hero */}
       <section className="ns-hero">
@@ -331,6 +226,37 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Products */}
+      <section id="products" className="ns-container">
+        <div className="grid-lines" />
+        <div className="section-header">
+          <h2 className="section-title">Products</h2>
+        </div>
+        <a href="/products/telegram-bot" className="product-feature-card">
+          <div className="product-feature-glow" />
+          <div className="product-feature-content">
+            <div className="product-feature-left">
+              <span className="mono" style={{ marginBottom: 16, display: "block" }}>PRODUCT</span>
+              <h3 className="product-feature-title">Telegram Membership Bot</h3>
+              <p className="product-feature-desc">
+                Automate Stripe payments and access control for your paid Telegram community. No revenue caps, no freeloaders. £39.99/month.
+              </p>
+              <span className="product-feature-link">LEARN MORE →</span>
+            </div>
+            <div className="product-feature-visual">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21.198 2.433a2.242 2.242 0 0 0-1.022.215l-16.5 7.5a2.25 2.25 0 0 0 .126 4.073l4.7 1.567 1.567 4.7a2.25 2.25 0 0 0 4.073.126l7.5-16.5a2.25 2.25 0 0 0-1.444-1.681z" />
+              </svg>
+              <div className="product-feature-mini-chat">
+                <div className="mini-bubble mini-bubble--bot">/start</div>
+                <div className="mini-bubble mini-bubble--reply">Choose your plan:</div>
+                <div className="mini-bubble mini-bubble--success">Access granted</div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </section>
+
       {/* Contact */}
       <section id="contact" className="contact-section">
         <h2 className="contact-heading">Start a project</h2>
@@ -422,21 +348,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="ns-footer">
-        <span className="footer-credit">© 2026 NorthStack Ltd.</span>
-        <div className="ns-logo">
-          <img
-            src="/logo.png"
-            alt=""
-            className="h-[14px] w-auto"
-            style={{ mixBlendMode: "screen" }}
-          />
-          NORTHSTACK
-        </div>
-        <a href="mailto:northstackcc@gmail.com" className="footer-email">
-          northstackcc@gmail.com
-        </a>
-      </footer>
+      <Footer />
     </>
   );
 }
