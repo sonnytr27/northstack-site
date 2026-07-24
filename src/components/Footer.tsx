@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
     <footer className="ns-footer">
-      <span className="footer-credit">© 2026 NorthStack Ltd.</span>
+      <span className="footer-credit">© 2026 NorthStack</span>
       <div className="ns-logo">
         <img
           src="/logo.png"

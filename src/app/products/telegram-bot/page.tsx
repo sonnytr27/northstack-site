@@ -62,18 +62,19 @@ function TelegramMockup() {
         {/* Bot reply with plan buttons */}
         <div className={`tg-msg tg-msg--bot ${visibleMessages >= 2 ? "tg-msg--visible" : ""}`}>
           <div className="tg-bubble tg-bubble--bot">
-            Welcome to <strong>Your Community</strong> VIP! Choose your plan:
+            Welcome to <strong>Your Community</strong>! Choose your plan:
             <div className="tg-buttons">
-              <span className="tg-btn">Weekly — £12.99</span>
-              <span className="tg-btn">Monthly — £39.99</span>
-              <span className="tg-btn">Quarterly — £99.99</span>
+              <span className="tg-btn">Weekly — £9.99</span>
+              <span className="tg-btn">Monthly — £24.99</span>
+              <span className="tg-btn">Quarterly — £59.99</span>
+              <span className="tg-btn">Yearly — £199.99</span>
             </div>
           </div>
         </div>
 
         {/* User taps Monthly */}
         <div className={`tg-msg tg-msg--user ${visibleMessages >= 3 ? "tg-msg--visible" : ""}`}>
-          <div className="tg-bubble tg-bubble--user">Monthly — £39.99</div>
+          <div className="tg-bubble tg-bubble--user">Monthly — £24.99</div>
         </div>
 
         {/* Typing indicator */}
@@ -90,8 +91,8 @@ function TelegramMockup() {
           <div className="tg-bubble tg-bubble--bot">
             Payment complete! Here are your invite links:
             <div className="tg-links">
-              <span className="tg-link"># VIP Signals</span>
-              <span className="tg-link"># Premium Chat</span>
+              <span className="tg-link"># Announcements</span>
+              <span className="tg-link"># Community Chat</span>
               <span className="tg-link"># Members Lounge</span>
             </div>
           </div>
@@ -211,12 +212,12 @@ function FlowDiagram() {
 /* ─── Comparison Table ─── */
 function ComparisonTable() {
   const rows = [
-    { feature: "Price", them: "$28–$105/month", us: "£39.99/month flat", usBetter: true },
-    { feature: "Revenue caps", them: "Yes — forced to upgrade", us: "None — same price at any scale", usBetter: true },
-    { feature: "Your data", them: "Stored on their servers", us: "Your Stripe is the source of truth", usBetter: true },
-    { feature: "Freeloaders", them: "Known issue — ghost subscribers", us: "Impossible — Stripe-verified events", usBetter: true },
-    { feature: "Support", them: "Ticket system", us: "Direct from the developer", usBetter: true },
-    { feature: "Channels", them: "Limited by plan", us: "Up to 10", usBetter: true },
+    { feature: "Price", them: "From $19/mo, rising by tier", us: "£39.99/mo flat", neutral: true },
+    { feature: "Revenue limits", them: "Sales caps per plan — growth forces an upgrade", us: "None — same price at any scale" },
+    { feature: "Your data", them: "Stored on their platform", us: "Your Stripe account, your data" },
+    { feature: "Access control", them: "Managed by their system", us: "Stripe-verified — no ghost subscribers" },
+    { feature: "Support", them: "Ticket system", us: "Direct from the developer" },
+    { feature: "Channels", them: "Limited by plan", us: "Up to 3" },
   ];
 
   return (
@@ -229,16 +230,20 @@ function ComparisonTable() {
       {rows.map((row) => (
         <div key={row.feature} className="compare-row">
           <div className="compare-cell compare-cell--feature">{row.feature}</div>
-          <div className="compare-cell compare-cell--them">
-            <svg className="compare-icon compare-icon--x" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-              <line x1="3" y1="3" x2="11" y2="11" /><line x1="11" y1="3" x2="3" y2="11" />
-            </svg>
+          <div className={`compare-cell compare-cell--them${row.neutral ? " compare-cell--neutral" : ""}`}>
+            {!row.neutral && (
+              <svg className="compare-icon compare-icon--x" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                <line x1="3" y1="3" x2="11" y2="11" /><line x1="11" y1="3" x2="3" y2="11" />
+              </svg>
+            )}
             <span>{row.them}</span>
           </div>
-          <div className="compare-cell compare-cell--us">
-            <svg className="compare-icon compare-icon--check" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="2 7 5.5 10.5 12 4" />
-            </svg>
+          <div className={`compare-cell compare-cell--us${row.neutral ? " compare-cell--neutral" : ""}`}>
+            {!row.neutral && (
+              <svg className="compare-icon compare-icon--check" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="2 7 5.5 10.5 12 4" />
+              </svg>
+            )}
             <span>{row.us}</span>
           </div>
         </div>
@@ -302,7 +307,7 @@ export default function TelegramBotPage() {
             </h1>
             <div className="product-hero-meta">
               <p className="product-hero-sub">
-                Stripe payments. Invite links. Access control. All handled by your own bot. £39.99/month flat.
+                They pay, they&apos;re in. They cancel, they&apos;re out. Nothing for you to check. £39.99 a month at any size.
               </p>
               <a
                 href="#enquiry"
@@ -329,7 +334,7 @@ export default function TelegramBotPage() {
       </section>
 
       {/* What's Included — 2x2 Feature Grid */}
-      <section id="included" className="ns-container" style={{ marginTop: 40 }}>
+      <section id="included" className="ns-container">
         <div className="grid-lines" />
         <div className="section-header">
           <h2 className="section-title">What&apos;s Included</h2>
@@ -359,12 +364,18 @@ export default function TelegramBotPage() {
       </section>
 
       {/* vs InviteMember */}
-      <section id="compare" className="ns-container" style={{ marginTop: 40 }}>
+      <section id="compare" className="ns-container">
         <div className="grid-lines" />
         <div className="section-header">
           <h2 className="section-title">vs InviteMember</h2>
         </div>
         <ComparisonTable />
+        <p className="mono">
+          Below roughly $1,000/month in community revenue, InviteMember costs less. Above it, you&apos;re paying more as you grow.
+        </p>
+        <p className="mono" style={{ marginTop: 8 }}>
+          InviteMember pricing checked July 2026.
+        </p>
       </section>
 
       {/* Pricing */}

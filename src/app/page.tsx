@@ -233,7 +233,7 @@ export default function Home() {
               <span className="mono" style={{ marginBottom: 16, display: "block" }}>PRODUCT</span>
               <h3 className="product-feature-title">Telegram Membership Bot</h3>
               <p className="product-feature-desc">
-                Automate Stripe payments and access control for your paid Telegram community. No revenue caps, no freeloaders. £39.99/month.
+                Automate payments and access control for your paid Telegram community. No revenue caps, no freeloaders. £39.99/month.
               </p>
               <span className="product-feature-link">LEARN MORE →</span>
             </div>
