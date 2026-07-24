@@ -1004,7 +1004,7 @@ h1.hero-title span:nth-child(2) {
   justify-content: center;
 }
 
-/* ─── Feature Grid (2x2) ─── */
+/* ─── Feature Grid (2x3) ─── */
 .feature-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1556,7 +1556,8 @@ h1.hero-title span:nth-child(2) {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 32px;
-  max-width: 640px;
+  width: 68%;
+  max-width: 820px;
   margin-bottom: 36px;
 }
 
@@ -1591,12 +1592,19 @@ h1.hero-title span:nth-child(2) {
 }
 
 .work-hero-eyebrow {
-  display: block;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.6em;
   margin-bottom: 28px;
 }
 
 .work-hero-title {
-  font-size: clamp(40px, 5vw, 64px);
+  /* Matched to .section-title exactly for consistent headings site-wide. */
+  font-family: "Inter", sans-serif;
+  font-size: 48px;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: -0.04em;
   margin-bottom: 28px;
 }
 
@@ -1604,21 +1612,71 @@ h1.hero-title span:nth-child(2) {
   display: block;
 }
 
+/* Eyebrow is a wrapping flex row so the stack moves to the next line as a whole
+ * unit (break at the hyphen) rather than mid-stack when space runs out. The cat
+ * segment never breaks internally; min-width:0 lets the stack wrap its own text
+ * when it alone is wider than the line. */
+.work-hero-eyebrow-cat {
+  white-space: nowrap;
+}
+
+.work-hero-eyebrow-stack {
+  min-width: 0;
+  color: #666666;
+}
+
 .work-section {
   padding-top: 70px;
   padding-bottom: 70px;
+}
+
+/*
+ * Section dividers ride the grid-lines box (inset to left/right 80px, 24px at
+ * 768) rather than the full-width .ns-container, so each horizontal rule meets
+ * the vertical grid lines at both ends instead of overshooting by the padding.
+ * .work-outro carries one too, closing the back-link band before the CTA.
+ */
+.work-section .grid-lines {
   border-bottom: 1px solid var(--border-color);
 }
 
+/* Full-bleed divider closing the back-link column — same technique as
+   .ns-footer::before (width: 100vw, centred). Sits at the section's bottom
+   edge, exactly where the vertical grid lines terminate, but runs edge to
+   edge across the viewport rather than only the inset grid width. */
+.work-outro::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  height: 1px;
+  background: var(--border-color);
+}
+
+/* Numbers band closes on its own bottom border — drop the section's trailing
+   padding so it runs straight into the back-link section (no empty band). */
+.work-section--flush-bottom {
+  padding-bottom: 0;
+}
+
+/* Inset section content off the vertical grid line — matches .section-header (48px / 24px) */
+.work-section .product-feature-title,
+.work-section > .work-prose,
+.work-outro .work-back {
+  padding-left: 48px;
+}
+
 .work-prose {
-  max-width: 68ch;
+  max-width: 80ch;
   margin-top: 8px;
 }
 
 .work-prose p {
   color: var(--text-secondary);
-  font-size: 15px;
-  line-height: 1.8;
+  font-size: 17px;
+  line-height: 1.85;
 }
 
 .work-prose p + p {
@@ -1629,7 +1687,10 @@ h1.hero-title span:nth-child(2) {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   border-top: 1px solid var(--border-color);
-  margin-top: 24px;
+  /* Band top border reads as the divider beneath the heading, so seat it the
+     same 70px below the heading as every other heading sits below its divider
+     (the section's padding-top), instead of crowding it at 24px. */
+  margin-top: 70px;
 }
 
 .work-number {
@@ -1650,6 +1711,11 @@ h1.hero-title span:nth-child(2) {
 
 .work-number-label {
   display: block;
+}
+
+.work-outro {
+  padding-top: 40px;
+  padding-bottom: 48px;
 }
 
 .work-back {
@@ -1685,9 +1751,13 @@ h1.hero-title span:nth-child(2) {
   .work-row-stats {
     grid-template-columns: 1fr;
     gap: 24px;
+    width: 100%;
   }
   .work-hero-inner {
     padding: 60px 0;
+  }
+  .work-hero-title {
+    font-size: 36px;
   }
   .work-section {
     padding-top: 48px;
@@ -1695,25 +1765,14 @@ h1.hero-title span:nth-child(2) {
   }
   .work-numbers {
     grid-template-columns: 1fr;
+    margin-top: 48px;
   }
   .work-number {
     border-right: none;
   }
-}
-
-/* === TELEGRAM COMPARE === */
-
-/* Neutral cell — no win/loss icon, no win/loss colour (used by the price row) */
-.compare-cell--neutral {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-/* Sentence-case footnotes, aligned to the table's left edge */
-.compare-footnote {
-  font-family: "JetBrains Mono", "SF Mono", "Fira Code", Consolas, monospace;
-  font-size: 12px;
-  color: var(--text-secondary);
-  text-transform: none;
-  letter-spacing: 0;
-  line-height: 1.5;
+  .work-section .product-feature-title,
+  .work-section > .work-prose,
+  .work-outro .work-back {
+    padding-left: 24px;
+  }
 }

@@ -54,7 +54,10 @@ export default async function WorkDetailPage({
         <div className="ns-container">
           <div className="work-hero-inner">
             <span className="mono work-hero-eyebrow">
-              {entry.number} · {entry.category}
+              <span className="work-hero-eyebrow-cat">
+                {entry.number} · {entry.category}
+              </span>
+              <span className="work-hero-eyebrow-stack">- {entry.stack}</span>
             </span>
             <h1 className="work-hero-title">{entry.title}</h1>
             <span className="mono work-hero-date">{entry.dateRange}</span>
@@ -96,7 +99,7 @@ export default async function WorkDetailPage({
       </section>
 
       {/* 5. By the numbers */}
-      <section className="ns-container work-section">
+      <section className="ns-container work-section work-section--flush-bottom">
         <div className="grid-lines" />
         <h2 className="product-feature-title">By the numbers</h2>
         <div className="work-numbers">
@@ -111,19 +114,8 @@ export default async function WorkDetailPage({
         </div>
       </section>
 
-      {/* 6. Stack and constraints */}
-      <section className="ns-container work-section">
-        <div className="grid-lines" />
-        <h2 className="product-feature-title">{sections.stack.heading}</h2>
-        <div className="work-prose">
-          {sections.stack.body.map((para, i) => (
-            <p key={i}>{para}</p>
-          ))}
-        </div>
-      </section>
-
-      {/* 7. Back to work + contact CTA */}
-      <section className="ns-container work-section">
+      {/* 6. Back to work + contact CTA */}
+      <section className="ns-container work-outro">
         <div className="grid-lines" />
         <Link href="/work" className="mono work-back">
           ← BACK TO WORK
