@@ -29,16 +29,20 @@ export async function POST(request: Request) {
     const safeProjectType = escapeHtml(projectType || "Not specified");
     const safeProjectDetails = escapeHtml(projectDetails);
     const safeBudget = escapeHtml(budget || "Not specified");
-    const safeProductInterest = escapeHtml(productInterest || "");
+    const PRODUCT_NAMES: Record<string, string> = {
+      "telegram-bot": "Telegram Membership Bot",
+    };
+    const productName = PRODUCT_NAMES[productInterest] || productInterest || "";
+    const safeProductName = escapeHtml(productName);
 
     const isProductEnquiry = !!productInterest;
     const subject = isProductEnquiry
-      ? `New ${safeProductInterest} enquiry from ${safeName}`
+      ? `${safeProductName} enquiry — ${safeName}`
       : `New enquiry from ${safeName}`;
 
     const html = isProductEnquiry
       ? `
-        <h2>Product Enquiry — ${safeProductInterest}</h2>
+        <h2>Product Enquiry — ${safeProductName}</h2>
         <p><strong>Name:</strong> ${safeName}</p>
         <p><strong>Email:</strong> ${safeEmail}</p>
         <p><strong>Details:</strong></p>
