@@ -1700,3 +1700,48 @@ h1.hero-title span:nth-child(2) {
     border-right: none;
   }
 }
+
+/* === TELEGRAM COMPARE === */
+
+/* Neutral cell — no win/loss icon, no win/loss colour (used by the price row) */
+.compare-cell--neutral {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Constrain + left-align the table under the section heading (which is inset 48px) */
+#compare .compare-table {
+  max-width: 1000px;
+  margin-left: 48px;
+}
+
+/* Narrower label column; two comparison columns share the rest evenly (25% / 37.5% / 37.5%) */
+#compare .compare-header,
+#compare .compare-row {
+  grid-template-columns: 1fr 1.5fr 1.5fr;
+}
+
+/* Tighten row height without touching responsive horizontal padding */
+#compare .compare-cell {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+/* Sentence-case footnotes, aligned to the table's left edge */
+.compare-footnote {
+  max-width: 1000px;
+  margin-left: 48px;
+  font-family: "JetBrains Mono", "SF Mono", "Fira Code", Consolas, monospace;
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-transform: none;
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  /* Match the section header's reduced inset so the table and footnotes stay aligned */
+  #compare .compare-table,
+  .compare-footnote {
+    margin-left: 24px;
+  }
+}

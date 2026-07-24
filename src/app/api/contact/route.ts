@@ -14,7 +14,7 @@ export async function POST(request: Request) {
   try {
     const resend = new Resend(process.env.RESEND_API_KEY);
     const body = await request.json();
-    const { name, email, company, projectType, projectDetails, budget } = body;
+    const { name, email, company, projectType, projectDetails, budget, productInterest } = body;
 
     if (!name || !email || !projectDetails) {
       return NextResponse.json(
@@ -29,13 +29,22 @@ export async function POST(request: Request) {
     const safeProjectType = escapeHtml(projectType || "Not specified");
     const safeProjectDetails = escapeHtml(projectDetails);
     const safeBudget = escapeHtml(budget || "Not specified");
+    const safeProductInterest = escapeHtml(productInterest || "");
 
-    await resend.emails.send({
-      from: "NORTHSTACK <enquiries@northstack.cc>",
-      to: "northstackcc@gmail.com",
-      replyTo: email,
-      subject: `New enquiry from ${safeName}`,
-      html: `
+    const isProductEnquiry = !!productInterest;
+    const subject = isProductEnquiry
+      ? `New ${safeProductInterest} enquiry from ${safeName}`
+      : `New enquiry from ${safeName}`;
+
+    const html = isProductEnquiry
+      ? `
+        <h2>Product Enquiry — ${safeProductInterest}</h2>
+        <p><strong>Name:</strong> ${safeName}</p>
+        <p><strong>Email:</strong> ${safeEmail}</p>
+        <p><strong>Details:</strong></p>
+        <p>${safeProjectDetails.replace(/\n/g, "<br>")}</p>
+      `
+      : `
         <h2>New Project Enquiry</h2>
         <p><strong>Name:</strong> ${safeName}</p>
         <p><strong>Email:</strong> ${safeEmail}</p>
@@ -44,7 +53,14 @@ export async function POST(request: Request) {
         <p><strong>Project Details:</strong></p>
         <p>${safeProjectDetails.replace(/\n/g, "<br>")}</p>
         <p><strong>Budget:</strong> ${safeBudget}</p>
-      `,
+      `;
+
+    await resend.emails.send({
+      from: "NORTHSTACK <enquiries@northstack.cc>",
+      to: "northstackcc@gmail.com",
+      replyTo: email,
+      subject,
+      html,
     });
 
     return NextResponse.json({ success: true });

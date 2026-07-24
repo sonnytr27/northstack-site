@@ -217,7 +217,6 @@ function ComparisonTable() {
     { feature: "Your data", them: "Stored on their platform", us: "Your Stripe account, your data" },
     { feature: "Access control", them: "Managed by their system", us: "Stripe-verified — no ghost subscribers" },
     { feature: "Support", them: "Ticket system", us: "Direct from the developer" },
-    { feature: "Channels", them: "Limited by plan", us: "Up to 3" },
   ];
 
   return (
@@ -370,10 +369,10 @@ export default function TelegramBotPage() {
           <h2 className="section-title">vs InviteMember</h2>
         </div>
         <ComparisonTable />
-        <p className="mono">
+        <p className="compare-footnote">
           Below roughly $1,000/month in community revenue, InviteMember costs less. Above it, you&apos;re paying more as you grow.
         </p>
-        <p className="mono" style={{ marginTop: 8 }}>
+        <p className="compare-footnote" style={{ marginTop: 8 }}>
           InviteMember pricing checked July 2026.
         </p>
       </section>
