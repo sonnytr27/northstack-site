@@ -14,7 +14,7 @@ export async function POST(request: Request) {
   try {
     const resend = new Resend(process.env.RESEND_API_KEY);
     const body = await request.json();
-    const { name, email, company, projectType, projectDetails, budget, productInterest } = body;
+    const { name, email, company, projectType, projectDetails, productInterest } = body;
 
     if (!name || !email || !projectDetails) {
       return NextResponse.json(
@@ -28,7 +28,6 @@ export async function POST(request: Request) {
     const safeCompany = escapeHtml(company || "Not provided");
     const safeProjectType = escapeHtml(projectType || "Not specified");
     const safeProjectDetails = escapeHtml(projectDetails);
-    const safeBudget = escapeHtml(budget || "Not specified");
     const PRODUCT_NAMES: Record<string, string> = {
       "telegram-bot": "Telegram Membership Bot",
     };
@@ -56,7 +55,6 @@ export async function POST(request: Request) {
         <p><strong>Project Type:</strong> ${safeProjectType}</p>
         <p><strong>Project Details:</strong></p>
         <p>${safeProjectDetails.replace(/\n/g, "<br>")}</p>
-        <p><strong>Budget:</strong> ${safeBudget}</p>
       `;
 
     await resend.emails.send({

@@ -79,7 +79,6 @@ export default function Home() {
   const [company, setCompany] = useState("");
   const [projectType, setProjectType] = useState<string | null>(null);
   const [projectDetails, setProjectDetails] = useState("");
-  const [budget, setBudget] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -272,7 +271,7 @@ export default function Home() {
                 const res = await fetch("/api/contact", {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({ name, email, company, projectType, projectDetails, budget }),
+                  body: JSON.stringify({ name, email, company, projectType, projectDetails }),
                 });
                 if (!res.ok) {
                   const data = await res.json();
@@ -317,20 +316,6 @@ export default function Home() {
               <label className="contact-label">Project details</label>
               <textarea className="contact-input contact-textarea" placeholder="Tell us about your project, timeline, and any specific requirements..." rows={4} required value={projectDetails} onChange={(e) => setProjectDetails(e.target.value)} />
             </div>
-            <Dropdown
-              label="Budget range"
-              placeholder="Select a range"
-              value={budget}
-              onChange={setBudget}
-              options={[
-                { value: "£0 - £1k", label: "£0 - £1k" },
-                { value: "£1k – £5k", label: "£1k – £5k" },
-                { value: "£5k – £15k", label: "£5k – £15k" },
-                { value: "£15k – £30k", label: "£15k – £30k" },
-                { value: "£30k+", label: "£30k+" },
-                { value: "Not sure yet", label: "Not sure yet" },
-              ]}
-            />
             {errorMessage && (
               <p style={{ color: "#ff4444", fontSize: 14, marginTop: -8 }}>{errorMessage}</p>
             )}

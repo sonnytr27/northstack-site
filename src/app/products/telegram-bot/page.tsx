@@ -64,17 +64,17 @@ function TelegramMockup() {
           <div className="tg-bubble tg-bubble--bot">
             Welcome to <strong>Your Community</strong>! Choose your plan:
             <div className="tg-buttons">
-              <span className="tg-btn">Weekly — £9.99</span>
-              <span className="tg-btn">Monthly — £24.99</span>
-              <span className="tg-btn">Quarterly — £59.99</span>
-              <span className="tg-btn">Yearly — £199.99</span>
+              <span className="tg-btn">Weekly: £9.99</span>
+              <span className="tg-btn">Monthly: £24.99</span>
+              <span className="tg-btn">Quarterly: £59.99</span>
+              <span className="tg-btn">Yearly: £199.99</span>
             </div>
           </div>
         </div>
 
         {/* User taps Monthly */}
         <div className={`tg-msg tg-msg--user ${visibleMessages >= 3 ? "tg-msg--visible" : ""}`}>
-          <div className="tg-bubble tg-bubble--user">Monthly — £24.99</div>
+          <div className="tg-bubble tg-bubble--user">Monthly: £24.99</div>
         </div>
 
         {/* Typing indicator */}
@@ -148,6 +148,33 @@ function IconServer() {
   );
 }
 
+function IconCalendar() {
+  return (
+    <svg className="feature-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+      <line x1="16" y1="2" x2="16" y2="6" />
+      <line x1="8" y1="2" x2="8" y2="6" />
+      <line x1="3" y1="10" x2="21" y2="10" />
+    </svg>
+  );
+}
+
+function IconSliders() {
+  return (
+    <svg className="feature-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="4" y1="21" x2="4" y2="14" />
+      <line x1="4" y1="10" x2="4" y2="3" />
+      <line x1="12" y1="21" x2="12" y2="12" />
+      <line x1="12" y1="8" x2="12" y2="3" />
+      <line x1="20" y1="21" x2="20" y2="16" />
+      <line x1="20" y1="12" x2="20" y2="3" />
+      <line x1="1" y1="14" x2="7" y2="14" />
+      <line x1="9" y1="8" x2="15" y2="8" />
+      <line x1="17" y1="16" x2="23" y2="16" />
+    </svg>
+  );
+}
+
 /* ─── Flow Diagram ─── */
 function FlowDiagram() {
   return (
@@ -155,7 +182,7 @@ function FlowDiagram() {
       <div className="flow-row">
         <div className="flow-node">
           <span className="flow-num">01</span>
-          <span className="flow-label">Subscribe</span>
+          <span className="flow-label">Subscribe in Telegram</span>
         </div>
         <div className="flow-arrow">
           <svg width="40" height="12" viewBox="0 0 40 12" fill="none">
@@ -212,10 +239,9 @@ function FlowDiagram() {
 /* ─── Comparison Table ─── */
 function ComparisonTable() {
   const rows = [
-    { feature: "Price", them: "From $19/mo, rising by tier", us: "£39.99/mo flat", neutral: true },
-    { feature: "Revenue limits", them: "Sales caps per plan — growth forces an upgrade", us: "None — same price at any scale" },
+    { feature: "Pricing", them: "Tiered by sales volume. The more you earn, the more you pay", us: "One flat fee at any scale" },
     { feature: "Your data", them: "Stored on their platform", us: "Your Stripe account, your data" },
-    { feature: "Access control", them: "Managed by their system", us: "Stripe-verified — no ghost subscribers" },
+    { feature: "Access control", them: "Managed by their system", us: "Stripe-verified. No ghost subscribers" },
     { feature: "Support", them: "Ticket system", us: "Direct from the developer" },
   ];
 
@@ -229,20 +255,16 @@ function ComparisonTable() {
       {rows.map((row) => (
         <div key={row.feature} className="compare-row">
           <div className="compare-cell compare-cell--feature">{row.feature}</div>
-          <div className={`compare-cell compare-cell--them${row.neutral ? " compare-cell--neutral" : ""}`}>
-            {!row.neutral && (
-              <svg className="compare-icon compare-icon--x" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                <line x1="3" y1="3" x2="11" y2="11" /><line x1="11" y1="3" x2="3" y2="11" />
-              </svg>
-            )}
+          <div className="compare-cell compare-cell--them">
+            <svg className="compare-icon compare-icon--x" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <line x1="3" y1="3" x2="11" y2="11" /><line x1="11" y1="3" x2="3" y2="11" />
+            </svg>
             <span>{row.them}</span>
           </div>
-          <div className={`compare-cell compare-cell--us${row.neutral ? " compare-cell--neutral" : ""}`}>
-            {!row.neutral && (
-              <svg className="compare-icon compare-icon--check" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="2 7 5.5 10.5 12 4" />
-              </svg>
-            )}
+          <div className="compare-cell compare-cell--us">
+            <svg className="compare-icon compare-icon--check" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="2 7 5.5 10.5 12 4" />
+            </svg>
             <span>{row.us}</span>
           </div>
         </div>
@@ -275,7 +297,8 @@ export default function TelegramBotPage() {
     { q: "What do I need to get started?", a: "A Telegram bot token (from BotFather), a Stripe account, and your Telegram channel/group IDs. We\u2019ll walk you through all of it." },
     { q: "Do my payments go through you?", a: "No. Payments go directly to your Stripe account. We never touch your money. Stripe takes their standard processing fee (2.9% + 20p)." },
     { q: "How many channels can I connect?", a: "Up to 10 Telegram channels or groups per bot." },
-    { q: "What if I want to cancel?", a: "Cancel anytime. Your members\u2019 Stripe subscriptions continue independently \u2014 you just lose the bot automation." },
+    { q: "Can I change my plans or prices later?", a: "Yes. Plan names, prices, billing periods and discount codes can all be changed after launch. Tell us what you want and it's done, usually same day." },
+    { q: "What if I want to cancel?", a: "Cancel anytime. Your members\u2019 Stripe subscriptions continue independently. You just lose the bot automation." },
     { q: "Do you support PayPal?", a: "Not yet. Stripe only for now. PayPal support is on the roadmap." },
   ];
 
@@ -306,7 +329,7 @@ export default function TelegramBotPage() {
             </h1>
             <div className="product-hero-meta">
               <p className="product-hero-sub">
-                They pay, they&apos;re in. They cancel, they&apos;re out. Nothing for you to check. £39.99 a month at any size.
+                They pay, they&apos;re in. They cancel, they&apos;re out. Nothing for you to check. £39.99 flat per month.
               </p>
               <a
                 href="#enquiry"
@@ -332,7 +355,7 @@ export default function TelegramBotPage() {
         <FlowDiagram />
       </section>
 
-      {/* What's Included — 2x2 Feature Grid */}
+      {/* What's Included — 2x3 Feature Grid */}
       <section id="included" className="ns-container">
         <div className="grid-lines" />
         <div className="section-header">
@@ -359,6 +382,16 @@ export default function TelegramBotPage() {
             <h3 className="feature-name">Fully Managed</h3>
             <p className="feature-desc">We host, maintain, and update everything. You focus on your community.</p>
           </div>
+          <div className="feature-card">
+            <IconCalendar />
+            <h3 className="feature-name">Flexible Plans</h3>
+            <p className="feature-desc">Weekly, monthly, quarterly, yearly, or one-off passes with a fixed end date. Any price, any billing period. Discount codes supported through Stripe.</p>
+          </div>
+          <div className="feature-card">
+            <IconSliders />
+            <h3 className="feature-name">Made Yours</h3>
+            <p className="feature-desc">Welcome message, plan names, descriptions, and channel setup all configured for your community. Edit your welcome text from inside Telegram with no downtime.</p>
+          </div>
         </div>
       </section>
 
@@ -369,12 +402,6 @@ export default function TelegramBotPage() {
           <h2 className="section-title">vs InviteMember</h2>
         </div>
         <ComparisonTable />
-        <p className="compare-footnote">
-          Below roughly $1,000/month in community revenue, InviteMember costs less. Above it, you&apos;re paying more as you grow.
-        </p>
-        <p className="compare-footnote" style={{ marginTop: 8 }}>
-          InviteMember pricing checked July 2026.
-        </p>
       </section>
 
       {/* Pricing */}
