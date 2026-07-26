@@ -120,16 +120,21 @@ export default function Home() {
               <p style={{ color: "rgba(255, 255, 255, 0.6)", fontFamily: "'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, monospace", fontSize: 14, textTransform: "uppercase", letterSpacing: "0.05em", lineHeight: 1.8, maxWidth: 600, marginBottom: 50 }}>
                 Software built around how your business actually works.
               </p>
-              <a
-                href="#contact"
-                className="hero-btn-primary"
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollTo("#contact");
-                }}
-              >
-                START A PROJECT →
-              </a>
+              <div className="hero-btns">
+                <a
+                  href="#contact"
+                  className="hero-btn-primary"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollTo("#contact");
+                  }}
+                >
+                  START A PROJECT →
+                </a>
+                <a href="/work" className="hero-btn-secondary">
+                  VIEW OUR WORK →
+                </a>
+              </div>
             </div>
           </div>
         </div>

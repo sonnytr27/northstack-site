@@ -565,8 +565,9 @@ h1.hero-title span:nth-child(2) {
   line-height: 1.5;
 }
 
-/* Hero buttons */
-.hero-btn-primary {
+/* Hero buttons — shared base so type/sizing can't drift between variants */
+.hero-btn-primary,
+.hero-btn-secondary {
   display: inline-block;
   padding: 16px 32px;
   border: 1px solid rgba(255, 255, 255, 0.4);
@@ -580,7 +581,8 @@ h1.hero-title span:nth-child(2) {
   background: transparent;
 }
 
-.hero-btn-primary:hover {
+.hero-btn-primary:hover,
+.hero-btn-secondary:hover {
   border-color: rgba(255, 255, 255, 1);
   background: rgba(255, 255, 255, 0.08);
   transform: translateY(-1px);
@@ -1573,12 +1575,12 @@ h1.hero-title span:nth-child(2) {
 
 .work-row-cta {
   display: block;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-primary);
   transition: color 0.2s ease;
 }
 
 .work-row:hover .work-row-cta {
-  color: var(--text-primary);
+  color: var(--accent);
 }
 
 /* ─── /work/[slug] detail ─── */
@@ -1744,9 +1746,26 @@ h1.hero-title span:nth-child(2) {
   }
 }
 
+/* ─── Hero buttons layout ─── */
+.hero-btns {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
 @media (max-width: 768px) {
   .work-row {
     padding: 32px 24px;
+  }
+  .hero-btns {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .hero-btn-primary,
+  .hero-btn-secondary {
+    width: 100%;
+    text-align: center;
   }
   .work-row-stats {
     grid-template-columns: 1fr;
