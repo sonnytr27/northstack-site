@@ -24,7 +24,7 @@ export const work: WorkEntry[] = [
     category: "INFRASTRUCTURE",
     title: "Subscription and access automation",
     summary:
-      "Payment-verified access control for a paid community platform we operate. Replaced a third-party service whose records had quietly drifted away from reality.",
+      "Runs the subscriptions and access for a paid community we operate. Replaced a paid service that had started letting cancelled members keep their access.",
     cardStats: [
       { value: "137", label: "days in production, zero crash restarts" },
       { value: "1,423", label: "payment events processed" },
@@ -57,6 +57,90 @@ export const work: WorkEntry[] = [
         { value: "1,423", label: "Stripe webhook events processed" },
         { value: "167", label: "distinct subscribers handled end to end" },
         { value: "43", label: "batch removals executed, none failed" },
+      ],
+    },
+  },
+  {
+    slug: "production-data-pipeline",
+    number: "002",
+    category: "DATA",
+    title: "Production data pipeline",
+    summary:
+      "Pulls data from several sources into one database every day, on its own. Recovers from failures without help, and never records the same thing twice.",
+    cardStats: [
+      { value: "37", label: "scheduled jobs running unattended" },
+      { value: "4", label: "daily ingestion cycles" },
+      { value: "75GB", label: "warehouse under management" },
+    ],
+    dateRange: "May 2026 to present",
+    stack: "Python · PostgreSQL · systemd · FastAPI",
+    sections: {
+      problem: [
+        "Any system that pulls data from someone else's service inherits their failures. Feeds go down, formats change without warning, and rate limits arrive unannounced. The naive version of this job is a script on a timer, and it works right up until the day something upstream is different, at which point it either crashes loudly or, far worse, writes bad data quietly.",
+        "The harder problem is what happens on the second run. A pipeline that fetches the same day twice needs to produce the same result twice. Without that, every retry risks duplicating records, and every recovery from an outage becomes a manual reconciliation job.",
+      ],
+      built: [
+        "A two-stage pipeline that separates fetching from parsing. Raw payloads are written to disk and recorded in a ledger before anything is interpreted, so a parsing bug never means re-fetching, and a fetch is never repeated unnecessarily.",
+        "Every write is an upsert on a natural key, and every fetch is checked against the ledger first. Running the same day twice is a no-op rather than a duplication. A run that crashes halfway leaves its own breadcrumbs, with attempt counts and the last error recorded per item, and the next scheduled run picks up exactly where it stopped without being told to.",
+        "Thirty-seven scheduled jobs handle ingestion, aggregation, model fitting, integrity checks and backups. Missed runs execute on next boot rather than being skipped. Parsers classify their own failures, so a genuine upstream format change raises an alert while routine unknown values are logged for later review, rather than both being treated as noise.",
+        "Backups run nightly to object storage, with the upload confirmed rather than assumed, retention rotated automatically, and monthly snapshots kept indefinitely.",
+      ],
+      deepDive: {
+        heading: "Nine days of nothing",
+        body: [
+          "An aggregation job stopped working and nobody noticed for nine days.",
+          "It hadn't crashed. One statement in it had grown slow enough, against a table that had been getting larger for weeks, to exceed the time budget the job was given. The process manager killed it on timeout, exactly as configured, and moved on. The job's own logs showed it starting every morning. Nothing reported a failure, because from the system's point of view nothing had failed.",
+          "What made it invisible was the same thing that made it survivable: the views it refreshes still existed and still returned data. They were just steadily getting older, and stale data looks identical to fresh data unless you check the timestamp.",
+          "The fix was three parts. A realistic time budget for a job whose runtime scales with a growing table. Failure alerting wired directly into the process manager rather than left to the script. And a scheduling change, moving it clear of another memory-hungry job it had been silently competing with.",
+        ],
+      },
+      numbers: [
+        { value: "52", label: "tables in the warehouse" },
+        { value: "4", label: "daily ingestion cycles, resumable" },
+        { value: "75GB", label: "PostgreSQL warehouse" },
+        { value: "30", label: "nightly backups retained and verified" },
+      ],
+    },
+  },
+  {
+    slug: "document-capture-automation",
+    number: "003",
+    category: "AUTOMATION",
+    title: "Image to spreadsheet capture",
+    summary:
+      "Reads images posted to a private channel and writes structured rows to a live spreadsheet. Built in a day. Has run unattended since.",
+    cardStats: [
+      { value: "119", label: "days running, one process, zero restarts" },
+      { value: "5s", label: "from post to row" },
+      { value: "55min", label: "of CPU used in four months" },
+    ],
+    dateRange: "March 2026 to present",
+    stack: "Python · Telethon · Vision API · Google Sheets",
+    sections: {
+      problem: [
+        "A team was posting information into a private channel as screenshots, and someone was reading each one and typing it into a spreadsheet by hand. Not a huge job on its own, but a few minutes each, several times a day, forever.",
+        "Work like this rarely gets automated, because the cost of building the automation looks larger than the cost of continuing. The calculation only changes if the build is genuinely small, so the constraint wasn't technical. It was that this had to be finished in a day or it wasn't worth doing at all.",
+      ],
+      built: [
+        "A single Python process holding an open connection to the channel, reacting to messages as they arrive rather than polling for them. Text fields are pulled locally with pattern matching. Anything only visible in the image goes to a vision model with a constrained prompt that forces structured output.",
+        "Rows are written to the live spreadsheet through the API, addressed to specific cells rather than appended, so the tool works with an existing sheet layout instead of demanding a new one. Later edits to a message are picked up too, matched back to the original row by a stored identifier, so a correction posted after the fact updates the record rather than creating a second one.",
+        "The whole thing is 518 lines in one file. It runs on a small server as a supervised service under a non-privileged user, restarts itself on failure, and has used 55 minutes of processor time in four months.",
+      ],
+      deepDive: {
+        heading: "The bug that overwrote live data",
+        body: [
+          "The tool finds the next empty row before writing. That sounds like the simplest part of the job, and it was the part that nearly destroyed the sheet.",
+          "The spreadsheet library's method for reading a column drops trailing empty cells rather than returning them. So a sheet with data down to row 98 and nothing after returns a list that ends at 98, with no indication that rows 99 onward exist and are empty. The loop looking for the first blank entry found nothing, fell through, and returned its starting position. Which was row 11. Occupied.",
+          "It didn't error. It wrote a valid row into a valid cell, on top of a record that was already there.",
+          "The fix was to stop asking for a column and start asking for a fixed range, which returns a grid with the empty cells preserved and present. Same information, an honest shape.",
+          "Nothing was wrong with the logic, the API call, or the data. The library returned exactly what it documents. The assumption underneath, that a column read gives you the whole column, was the thing that was wrong, and it was invisible until a sheet happened to have empty rows at the bottom.",
+        ],
+      },
+      numbers: [
+        { value: "119", label: "days running, one process, zero restarts" },
+        { value: "41MB", label: "memory footprint" },
+        { value: "5s", label: "from image posted to row written" },
+        { value: "55min", label: "of CPU used in four months" },
       ],
     },
   },
