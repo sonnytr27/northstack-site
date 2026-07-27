@@ -26,9 +26,9 @@ export const work: WorkEntry[] = [
     summary:
       "Runs the subscriptions and access for a paid community we operate. Replaced a paid service that had started letting cancelled members keep their access.",
     cardStats: [
+      { value: "£1,400", label: "a year, cut from running costs" },
       { value: "137", label: "days in production, zero crash restarts" },
-      { value: "1,423", label: "payment events processed" },
-      { value: "167", label: "subscribers handled end to end" },
+      { value: "76 to 52", label: "subscriptions verified on migration" },
     ],
     dateRange: "March 2026 to present",
     stack: "Node.js · TypeScript · SQLite · Express · nginx",
@@ -53,9 +53,9 @@ export const work: WorkEntry[] = [
         ],
       },
       numbers: [
+        { value: "£1,400", label: "a year removed from running costs" },
         { value: "137", label: "days in production, zero crash restarts" },
-        { value: "1,423", label: "Stripe webhook events processed" },
-        { value: "167", label: "distinct subscribers handled end to end" },
+        { value: "24", label: "claimed subscriptions that did not survive audit" },
         { value: "43", label: "batch removals executed, none failed" },
       ],
     },
