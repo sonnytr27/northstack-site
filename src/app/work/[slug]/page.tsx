@@ -56,6 +56,7 @@ export default async function WorkDetailPage({
             <span className="mono work-hero-eyebrow">
               <span className="work-hero-eyebrow-cat">
                 {entry.number} · {entry.category}
+                {entry.isDemo && <span className="work-tag">Demo</span>}
               </span>
               <span className="work-hero-eyebrow-stack">- {entry.stack}</span>
             </span>
@@ -64,6 +65,16 @@ export default async function WorkDetailPage({
           </div>
         </div>
       </section>
+
+      {/* 1b. Try it live — the whole point of a demo entry, so it sits above the prose */}
+      {entry.isDemo && (
+        <section className="ns-container work-section work-demo-cta">
+          <div className="grid-lines" />
+          <Link href={entry.demoUrl} className="hero-btn-primary">
+            TRY IT LIVE →
+          </Link>
+        </section>
+      )}
 
       {/* 2. The problem */}
       <section className="ns-container work-section">
@@ -98,21 +109,24 @@ export default async function WorkDetailPage({
         </div>
       </section>
 
-      {/* 5. By the numbers */}
-      <section className="ns-container work-section work-section--flush-bottom">
-        <div className="grid-lines" />
-        <h2 className="product-feature-title">By the numbers</h2>
-        <div className="work-numbers">
-          {sections.numbers.map((stat, i) => (
-            <div key={i} className="work-number">
-              <div className="work-number-value" style={FRAUNCES}>
-                {stat.value}
+      {/* 5. By the numbers — production entries only. A demo has no figures to
+             report, and must not manufacture any. */}
+      {!entry.isDemo && (
+        <section className="ns-container work-section work-section--flush-bottom">
+          <div className="grid-lines" />
+          <h2 className="product-feature-title">By the numbers</h2>
+          <div className="work-numbers">
+            {entry.sections.numbers.map((stat, i) => (
+              <div key={i} className="work-number">
+                <div className="work-number-value" style={FRAUNCES}>
+                  {stat.value}
+                </div>
+                <span className="mono work-number-label">{stat.label}</span>
               </div>
-              <span className="mono work-number-label">{stat.label}</span>
-            </div>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* 6. Back to work + contact CTA */}
       <section className="ns-container work-outro">

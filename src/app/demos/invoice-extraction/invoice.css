@@ -52,8 +52,11 @@
   color: rgba(255, 255, 255, 0.75);
 }
 
-/* ─── Drop zone ─── */
-.ix-drop {
+/* ─── Document stage ───
+ * Holds the selected sample. Not a drop target: the border stays solid so it
+ * reads as a panel awaiting a selection, never as something you can drop onto.
+ */
+.ix-stage {
   position: relative;
   overflow: hidden;
   border: 1px solid var(--border-color);
@@ -61,42 +64,21 @@
   min-height: 440px;
   display: flex;
   align-items: stretch;
-  transition: border-color 0.2s ease, background 0.2s ease;
 }
 
-.ix-drop--empty {
-  border-style: dashed;
+.ix-stage--empty {
   align-items: center;
   justify-content: center;
 }
 
-.ix-drop--over {
-  border-color: var(--border-hover);
-  background: rgba(255, 255, 255, 0.04);
-}
-
-.ix-drop-prompt {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
+/* Mirrors .ix-ghost-label, the idle treatment on the extracted panel, so both
+   columns sit at rest the same way. The vertical padding gives the idle panel
+   body of its own at the 1024 breakpoint, where .ix-stage drops its
+   min-height. */
+.ix-stage-prompt {
   text-align: center;
-  padding: 24px;
+  padding: 72px 24px;
   pointer-events: none;
-}
-
-.ix-drop-prompt-alt {
-  color: rgba(255, 255, 255, 0.35);
-}
-
-.ix-drop-note {
-  margin: 12px 0 0;
-  font-family: "JetBrains Mono", "SF Mono", "Fira Code", Consolas, monospace;
-  font-size: 10px;
-  letter-spacing: 0.05em;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.4);
-  text-transform: none;
 }
 
 /* Scan line — sweeps the preview once while the demo is "reading". */
@@ -480,30 +462,28 @@
   flex-wrap: wrap;
 }
 
-.ix-timing {
-  opacity: 0;
-  transition: opacity 0.3s ease;
+/* The results now mount at the moment they become true, rather than sitting
+   there dimmed, so entry is an animation: a transition would not run on mount.
+   Same motion as .ix-field--in, so results arrive the way the fields did. */
+@keyframes ix-result-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.ix-timing--in {
-  opacity: 1;
+.ix-actions,
+.ix-aside {
+  animation: ix-result-in 0.35s ease both;
 }
 
 .ix-export {
   cursor: pointer;
   margin-left: auto;
-}
-
-.ix-export:disabled {
-  cursor: not-allowed;
-  opacity: 0.3;
-  border-color: var(--border-color);
-}
-
-.ix-export:disabled:hover {
-  transform: none;
-  background: transparent;
-  border-color: var(--border-color);
 }
 
 .ix-aside {
@@ -591,7 +571,7 @@
     gap: 44px;
     padding: 0 32px;
   }
-  .ix-drop,
+  .ix-stage,
   .ix-fields {
     min-height: 0;
   }

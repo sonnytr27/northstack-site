@@ -84,28 +84,6 @@ export const invoiceSamples: InvoiceSample[] = [
   },
 ];
 
-/**
- * Shown when a visitor drops a file of their own. Their file is never opened,
- * parsed, uploaded, or inspected beyond its name — this prepared result stands
- * in for it, and the interface says so on screen.
- */
-export const genericSample: InvoiceSample = {
-  id: "generic",
-  shortName: "Ashcombe",
-  supplier: "Ashcombe Trading Ltd",
-  invoiceNumber: "ATL-0562",
-  date: "8 July 2026",
-  currency: "£",
-  currencyCode: "GBP",
-  lineItems: [
-    { description: "Consultancy, standard rate (hours)", qty: 14, unitPrice: 65.0 },
-    { description: "Site visit, half day", qty: 2, unitPrice: 180.0 },
-  ],
-  subtotal: 1270.0,
-  vat: 254.0,
-  total: 1524.0,
-};
-
 export function getSample(id: string): InvoiceSample | undefined {
   return invoiceSamples.find((sample) => sample.id === id);
 }

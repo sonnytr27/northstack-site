@@ -1,21 +1,42 @@
 export type WorkStat = { value: string; label: string };
 
-export type WorkEntry = {
+/** Shared by every entry, production or demo. */
+type WorkEntryBase = {
   slug: string;
   number: string; // "001"
   category: string; // "INFRASTRUCTURE"
   title: string;
   summary: string;
-  cardStats: [WorkStat, WorkStat, WorkStat]; // exactly 3 — fills the 3-across card row
   dateRange: string;
   stack: string; // hero metadata line, e.g. "Node.js · TypeScript · SQLite"
   sections: {
     problem: string[];
     built: string[];
     deepDive: { heading: string; body: string[] };
+  };
+};
+
+/** Shipped work. Carries the figures both the card row and the numbers band need. */
+export type ProductionWorkEntry = WorkEntryBase & {
+  isDemo?: false;
+  cardStats: [WorkStat, WorkStat, WorkStat]; // exactly 3 — fills the 3-across card row
+  sections: WorkEntryBase["sections"] & {
     numbers: [WorkStat, WorkStat, WorkStat, WorkStat]; // exactly 4 — fills the 4-col band
   };
 };
+
+/**
+ * A concept piece: something built to be tried, not a system running in
+ * production. It has no figures to report, so it carries neither cardStats nor
+ * sections.numbers, and points at a live demo instead. Both surfaces narrow on
+ * isDemo, which is what keeps the numbers band off these pages.
+ */
+export type DemoWorkEntry = WorkEntryBase & {
+  isDemo: true;
+  demoUrl: string;
+};
+
+export type WorkEntry = ProductionWorkEntry | DemoWorkEntry;
 
 export const work: WorkEntry[] = [
   {
@@ -142,6 +163,37 @@ export const work: WorkEntry[] = [
         { value: "5s", label: "from image posted to row written" },
         { value: "55min", label: "of CPU used in four months" },
       ],
+    },
+  },
+  {
+    slug: "invoice-extraction",
+    number: "004",
+    category: "DEMONSTRATION",
+    title: "Documents into data",
+    summary:
+      "A working demonstration: pick a sample invoice, watch the fields get read and turned into a clean, exportable row. The capability behind killing manual data entry.",
+    dateRange: "Concept build",
+    stack: "Next.js · TypeScript",
+    isDemo: true,
+    demoUrl: "/demos/invoice-extraction",
+    sections: {
+      problem: [
+        "Somewhere in most businesses, a person is reading documents and typing what they say into a spreadsheet. Invoices, delivery notes, receipts, order forms. It is slow, it is dull, and it is the kind of task that quietly eats a day a month without ever being important enough to fix.",
+        "Off-the-shelf software rarely covers it, because every business's documents and destination are slightly different. So the job stays manual, and the person doing it stays busy with work a machine should be doing.",
+      ],
+      built: [
+        "This is a demonstration of the capability, built to be tried rather than described. Pick a sample invoice and the tool reads it: a scan animation, then the fields populate one by one, supplier, invoice number, date, line items, totals, into a clean structured record you can export as a CSV.",
+        "The extraction in the demo is scripted and deterministic, so it costs nothing to run and cannot fail in front of you. A production version reads real documents with a vision model, but the flow, the output, and the export are exactly what a real tool would do.",
+        "The point of showing it rather than describing it: a business owner should not have to imagine what document extraction means. They should watch a messy invoice become a clean row of data in under two seconds, and recognise their own Tuesday afternoon.",
+      ],
+      deepDive: {
+        heading: "What you would actually get",
+        body: [
+          "The demo is the capability. How it is delivered depends on the business.",
+          "For some it is a tool their team uses, documents dropped in and clean rows out, behind their own login, reading their real files. For others it is an automation with no interface at all, where documents arrive in an inbox or a folder and the rows appear in a spreadsheet on their own, with nobody clicking anything. And for a business sitting on a backlog, it is a one-off job: hand over the pile, get back a single clean spreadsheet, no software to run.",
+          "The common thread is the same in every case. If someone in the business retypes documents into a spreadsheet, this removes that job. What changes is only the shape of the delivery.",
+        ],
+      },
     },
   },
 ];

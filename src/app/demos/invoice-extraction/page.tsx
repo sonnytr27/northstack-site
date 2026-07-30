@@ -6,27 +6,23 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Overlays from "@/components/Overlays";
 import { ROUTE_NAV } from "@/data/nav";
-import {
-  genericSample,
-  invoiceSamples,
-  type InvoiceSample,
-} from "@/data/invoice-samples";
+import { invoiceSamples, type InvoiceSample } from "@/data/invoice-samples";
 import InvoicePreview from "./InvoicePreview";
 import { downloadInvoiceCsv } from "./csv";
 import { formatMoney } from "./format";
 import "./invoice.css";
 
 /* ─── Timing ───
- * The number printed on screen is derived from these constants, so the claim
- * can never drift from what the visitor actually watched. Reading takes
- * READ_MS, then STEP_COUNT fields land STAGGER_MS apart:
- *   800 + (7 × 90) = 1430ms → "1.4s"
+ * These schedule the sequence: reading takes READ_MS, then STEP_COUNT fields
+ * land STAGGER_MS apart, so the run nominally spans ~1430ms. The number printed
+ * on screen is NOT derived from them — it is measured with performance.now()
+ * from the click to the end of the last reveal, so it reports the run the
+ * visitor actually watched, timer drift and all.
  */
 const READ_MS = 800;
 const STAGGER_MS = 90;
 const STEP_COUNT = 7;
 const TOTAL_MS = READ_MS + STEP_COUNT * STAGGER_MS;
-const ELAPSED_LABEL = `${(TOTAL_MS / 1000).toFixed(1)}s`;
 
 /** Reveal order. Index into these when deciding whether a row is visible. */
 const STEP = {
@@ -52,7 +48,7 @@ const DELIVERY_SHAPES = [
   {
     num: "001",
     name: "A tool your team uses",
-    desc: "Your staff drop documents in and get clean rows out, the same way the demo works, but reading your real files and behind your own login. For when documents arrive steadily and someone needs to handle them as they come.",
+    desc: "Your staff drop documents in and get clean rows out, the same extraction you just watched, but reading your real files and behind your own login. For when documents arrive steadily and someone needs to handle them as they come.",
   },
   {
     num: "002",
@@ -84,14 +80,17 @@ function keepHyphensIntact(title: string) {
 type Phase = "idle" | "reading" | "extracting" | "done";
 
 /** A selection. `seq` increments on every pick so choosing the same sample
- *  twice is a new object and re-runs the effect. */
-type Run = { sample: InvoiceSample; seq: number; droppedName: string | null };
+ *  twice is a new object and re-runs the effect. `startedAt` is the
+ *  performance.now() reading taken at the click, i.e. the instant the scan
+ *  animation begins — the start of the interval we report. */
+type Run = { sample: InvoiceSample; seq: number; startedAt: number };
 
 export default function InvoiceExtractionPage() {
   const [run, setRun] = useState<Run | null>(null);
   const [phase, setPhase] = useState<Phase>("idle");
   const [revealed, setRevealed] = useState(0);
-  const [dragOver, setDragOver] = useState(false);
+  /** Measured duration of the run just watched, in ms. Null until it lands. */
+  const [elapsedMs, setElapsedMs] = useState<number | null>(null);
 
   useEffect(() => {
     if (!run) return;
@@ -103,7 +102,12 @@ export default function InvoiceExtractionPage() {
       ...Array.from({ length: STEP_COUNT }, (_, i) =>
         setTimeout(() => setRevealed(i + 1), READ_MS + i * STAGGER_MS)
       ),
-      setTimeout(() => setPhase("done"), TOTAL_MS),
+      // End of the sequence: the last field has finished revealing. Stop the
+      // clock here, against the timestamp taken at the click.
+      setTimeout(() => {
+        setElapsedMs(performance.now() - run.startedAt);
+        setPhase("done");
+      }, TOTAL_MS),
     ];
 
     // Selecting another sample mid-run cancels this one outright rather than
@@ -111,24 +115,24 @@ export default function InvoiceExtractionPage() {
     return () => timers.forEach(clearTimeout);
   }, [run]);
 
-  const select = (sample: InvoiceSample, droppedName: string | null = null) => {
+  const select = (sample: InvoiceSample) => {
     setPhase("reading");
     setRevealed(0);
-    setRun((prev) => ({ sample, droppedName, seq: (prev?.seq ?? 0) + 1 }));
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    setDragOver(false);
-    // The dropped file is never opened, parsed or sent anywhere. Only its name
-    // is read, purely so the page can say what it received.
-    const name = e.dataTransfer.files?.[0]?.name ?? null;
-    select(genericSample, name);
+    setElapsedMs(null);
+    setRun((prev) => ({
+      sample,
+      seq: (prev?.seq ?? 0) + 1,
+      startedAt: performance.now(),
+    }));
   };
 
   const sample = run?.sample ?? null;
   const isDone = phase === "done";
   const shown = (step: number) => revealed > step;
+  // What gets printed: the measured interval, to one decimal. No fallback —
+  // if nothing has been measured there is nothing to claim.
+  const elapsedLabel =
+    elapsedMs === null ? null : `${(elapsedMs / 1000).toFixed(1)}s`;
 
   return (
     <>
@@ -143,7 +147,7 @@ export default function InvoiceExtractionPage() {
             <span className="mono ix-eyebrow">DEMO · DOCUMENT EXTRACTION</span>
             <h1 className="work-hero-title">Turn documents into data.</h1>
             <span className="mono ix-hero-sub">
-              Drop in an invoice. Get structured rows out. No typing.
+              Pick a sample invoice. Get structured rows out. No typing.
             </span>
           </div>
         </div>
@@ -157,21 +161,10 @@ export default function InvoiceExtractionPage() {
           <div className="ix-col">
             <span className="mono ix-col-label">Document</span>
 
-            <div
-              className={[
-                "ix-drop",
-                sample ? "" : "ix-drop--empty",
-                dragOver ? "ix-drop--over" : "",
-              ]
-                .filter(Boolean)
-                .join(" ")}
-              onDragOver={(e) => {
-                e.preventDefault();
-                setDragOver(true);
-              }}
-              onDragLeave={() => setDragOver(false)}
-              onDrop={handleDrop}
-            >
+            {/* Stage for the selected sample. Deliberately not a drop target:
+                this demo runs on prepared samples only, so the UI must never
+                imply a file can be handed to it. */}
+            <div className={`ix-stage ${sample ? "" : "ix-stage--empty"}`}>
               {sample ? (
                 <>
                   <InvoicePreview sample={sample} />
@@ -184,21 +177,11 @@ export default function InvoiceExtractionPage() {
                   )}
                 </>
               ) : (
-                <div className="ix-drop-prompt">
-                  <span className="mono">Drop an invoice here</span>
-                  <span className="mono ix-drop-prompt-alt">
-                    or pick a sample below
-                  </span>
-                </div>
+                <span className="mono ix-stage-prompt">
+                  Pick a sample invoice below
+                </span>
               )}
             </div>
-
-            {run?.droppedName && (
-              <p className="mono ix-drop-note">
-                Received {run.droppedName}. Demo uses prepared samples, your
-                file was not read.
-              </p>
-            )}
 
             <span className="mono ix-thumbs-cue">Try one →</span>
 
@@ -347,23 +330,27 @@ export default function InvoiceExtractionPage() {
               )}
             </div>
 
-            <div className="ix-actions">
-              <span className={`mono ix-timing ${isDone ? "ix-timing--in" : ""}`}>
-                Extracted in {ELAPSED_LABEL}
-              </span>
-              <button
-                type="button"
-                className="hero-btn-primary ix-export"
-                onClick={() => sample && downloadInvoiceCsv(sample)}
-                disabled={!isDone || !sample}
-              >
-                EXPORT TO CSV ↓
-              </button>
-            </div>
+            {/* Results. Both the timing and the export are statements about an
+                extraction that has happened, so neither exists until one has.
+                Nothing here renders in the idle state. */}
+            {sample && isDone && elapsedLabel && (
+              <>
+                <div className="ix-actions">
+                  <span className="mono">Extracted in {elapsedLabel}</span>
+                  <button
+                    type="button"
+                    className="hero-btn-primary ix-export"
+                    onClick={() => downloadInvoiceCsv(sample)}
+                  >
+                    EXPORT TO CSV ↓
+                  </button>
+                </div>
 
-            <p className="ix-aside">
-              That took under two seconds. By hand, about three minutes.
-            </p>
+                <p className="ix-aside">
+                  That took under two seconds. By hand, about three minutes.
+                </p>
+              </>
+            )}
           </div>
         </div>
       </section>

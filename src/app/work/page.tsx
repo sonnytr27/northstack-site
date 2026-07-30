@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Overlays from "@/components/Overlays";
@@ -25,40 +26,66 @@ export default function WorkIndexPage() {
         </div>
 
         <div className="work-list">
-          {work.map((entry) => (
-            <a
-              key={entry.slug}
-              href={`/work/${entry.slug}`}
-              className="work-row"
-            >
-              <span className="mono work-row-eyebrow">
-                {entry.number} · {entry.category}
-              </span>
-              <h2 className="work-row-title">{entry.title}</h2>
-              <p className="work-row-summary">{entry.summary}</p>
+          {work.map((entry) =>
+            entry.isDemo ? (
+              /* Demo card. The whole card still leads to the detail page, but a
+                 nested anchor inside an anchor is invalid, so the card is a div
+                 and the card-wide click target is an overlay link sitting under
+                 the demo CTA. */
+              <div key={entry.slug} className="work-row work-row--demo">
+                <Link
+                  href={`/work/${entry.slug}`}
+                  className="work-row-overlay"
+                  aria-label={`Read the build: ${entry.title}`}
+                />
+                <span className="mono work-row-eyebrow">
+                  {entry.number} · {entry.category}
+                  <span className="work-tag">Demo</span>
+                </span>
+                <h2 className="work-row-title">{entry.title}</h2>
+                <p className="work-row-summary">{entry.summary}</p>
 
-              <div className="work-row-stats">
-                {entry.cardStats.map((stat, i) => (
-                  <div key={i} className="work-stat">
-                    <div
-                      className="work-stat-value"
-                      style={{
-                        fontFamily: "'Fraunces', serif",
-                        fontWeight: 900,
-                        fontStyle: "italic",
-                        fontVariationSettings: "'SOFT' 50, 'WONK' 1",
-                      }}
-                    >
-                      {stat.value}
-                    </div>
-                    <span className="mono work-stat-label">{stat.label}</span>
-                  </div>
-                ))}
+                <Link href={entry.demoUrl} className="mono work-row-demo-cta">
+                  TRY IT LIVE →
+                </Link>
+
+                <span className="mono work-row-cta">READ THE BUILD →</span>
               </div>
+            ) : (
+              <a
+                key={entry.slug}
+                href={`/work/${entry.slug}`}
+                className="work-row"
+              >
+                <span className="mono work-row-eyebrow">
+                  {entry.number} · {entry.category}
+                </span>
+                <h2 className="work-row-title">{entry.title}</h2>
+                <p className="work-row-summary">{entry.summary}</p>
 
-              <span className="mono work-row-cta">READ THE BUILD →</span>
-            </a>
-          ))}
+                <div className="work-row-stats">
+                  {entry.cardStats.map((stat, i) => (
+                    <div key={i} className="work-stat">
+                      <div
+                        className="work-stat-value"
+                        style={{
+                          fontFamily: "'Fraunces', serif",
+                          fontWeight: 900,
+                          fontStyle: "italic",
+                          fontVariationSettings: "'SOFT' 50, 'WONK' 1",
+                        }}
+                      >
+                        {stat.value}
+                      </div>
+                      <span className="mono work-stat-label">{stat.label}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <span className="mono work-row-cta">READ THE BUILD →</span>
+              </a>
+            ),
+          )}
         </div>
       </section>
 

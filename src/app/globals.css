@@ -1736,6 +1736,63 @@ h1.hero-title span:nth-child(2) {
   justify-content: center;
 }
 
+/* ─── Demo entries ───
+ * A concept piece rather than a shipped system: quiet marker in the eyebrow,
+ * and a link to the live demo where a production entry shows its figures. */
+
+/* Hairline chip, deliberately quieter than the eyebrow it follows — it should
+   read as an honest qualifier, not a badge competing with the category. */
+.work-tag {
+  display: inline-block;
+  margin-left: 10px;
+  padding: 2px 7px;
+  border: 1px solid var(--border-color);
+  font-size: 10px;
+  line-height: 1.4;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  vertical-align: 1px;
+}
+
+/* Card-wide click target for a demo card, which can't be an <a> itself because
+   it contains one. Sits beneath the demo CTA in the stacking order. */
+.work-row--demo {
+  position: relative;
+}
+
+.work-row-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* Occupies the slot the 3-stat row holds on a production card, so the vertical
+   rhythm of the list is unchanged. Lifted above the overlay link. */
+.work-row-demo-cta {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  margin-bottom: 36px;
+  padding: 14px 28px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+.work-row-demo-cta:hover {
+  border-color: rgba(255, 255, 255, 1);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Detail-page CTA band, sitting directly under the hero. The button carries the
+   heading inset as margin rather than padding, so its border starts on the same
+   line the section headings start on. */
+.work-demo-cta > .hero-btn-primary {
+  margin-left: 48px;
+}
+
 /* ─── Responsive ─── */
 @media (max-width: 1024px) {
   .work-numbers {
@@ -1793,5 +1850,13 @@ h1.hero-title span:nth-child(2) {
   .work-section > .work-prose,
   .work-outro .work-back {
     padding-left: 24px;
+  }
+  .work-demo-cta > .hero-btn-primary {
+    margin-left: 24px;
+    width: auto;
+  }
+  .work-row-demo-cta {
+    width: 100%;
+    text-align: center;
   }
 }
