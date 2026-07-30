@@ -619,9 +619,18 @@ h1.hero-title span:nth-child(2) {
   letter-spacing: 0.1em;
 }
 
-.footer-email {
+/* Right-hand footer group — the alignment the email used to do on its own,
+   now shared with the privacy link sitting beside it. */
+.footer-links {
   flex: 1;
-  text-align: right;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
+}
+
+.footer-email,
+.footer-link {
   color: var(--text-secondary);
   text-decoration: none;
   font-size: 0.75rem;
@@ -630,7 +639,8 @@ h1.hero-title span:nth-child(2) {
   transition: color 0.2s ease;
 }
 
-.footer-email:hover {
+.footer-email:hover,
+.footer-link:hover {
   color: var(--text-primary);
 }
 
@@ -1665,6 +1675,7 @@ h1.hero-title span:nth-child(2) {
 
 /* Inset section content off the vertical grid line — matches .section-header (48px / 24px) */
 .work-section .product-feature-title,
+.work-section > .privacy-label,
 .work-section > .work-prose,
 .work-outro .work-back {
   padding-left: 48px;
@@ -1847,6 +1858,7 @@ h1.hero-title span:nth-child(2) {
     border-right: none;
   }
   .work-section .product-feature-title,
+  .work-section > .privacy-label,
   .work-section > .work-prose,
   .work-outro .work-back {
     padding-left: 24px;
@@ -1859,4 +1871,30 @@ h1.hero-title span:nth-child(2) {
     width: 100%;
     text-align: center;
   }
+}
+
+/* === PRIVACY === */
+
+/* Mono section label standing in for a heading. Sits the same 24px above its
+   prose as .product-feature-title does (16px here + the prose's 8px). */
+.privacy-label {
+  margin: 0 0 16px;
+}
+
+/* Last section closes on the footer's own full-bleed rule, so it drops the
+   inset divider its grid-lines box would otherwise draw at the same height. */
+.privacy-section--last .grid-lines {
+  border-bottom: none;
+}
+
+.privacy-link {
+  color: var(--text-primary);
+  text-decoration: underline;
+  text-decoration-color: var(--border-hover);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.2s ease;
+}
+
+.privacy-link:hover {
+  text-decoration-color: var(--accent);
 }
