@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Footer() {
   return (
     <footer className="ns-footer">
@@ -11,9 +13,14 @@ export default function Footer() {
         />
         NORTHSTACK
       </div>
-      <a href="mailto:northstackcc@gmail.com" className="footer-email">
-        northstackcc@gmail.com
-      </a>
+      <div className="footer-links">
+        <Link href="/privacy" className="footer-link">
+          Privacy
+        </Link>
+        <a href="mailto:northstackcc@gmail.com" className="footer-email">
+          northstackcc@gmail.com
+        </a>
+      </div>
     </footer>
   );
 }
