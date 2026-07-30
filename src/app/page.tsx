@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Overlays from "@/components/Overlays";
@@ -131,9 +132,9 @@ export default function Home() {
                 >
                   START A PROJECT →
                 </a>
-                <a href="/work" className="hero-btn-secondary">
+                <Link href="/work" className="hero-btn-secondary">
                   VIEW OUR WORK →
-                </a>
+                </Link>
               </div>
             </div>
           </div>
