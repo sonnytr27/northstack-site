@@ -1,0 +1,702 @@
+/* ─── /demos/invoice-extraction ───
+ * Route-scoped, same convention as orbital.css. Uses only the site tokens:
+ * --bg-color, --text-primary, --text-secondary, --border-color, --border-hover.
+ * No new fonts, no new colours.
+ */
+
+/* ─── Hero ─── */
+.ix-eyebrow {
+  display: block;
+  margin-bottom: 28px;
+}
+
+.ix-hero-sub {
+  display: block;
+  margin-top: 28px;
+  font-size: 13px;
+  text-transform: none;
+  letter-spacing: 0.04em;
+  line-height: 1.8;
+}
+
+/* ─── Tool section ─── */
+.ix-section {
+  padding-top: 70px;
+  padding-bottom: 70px;
+}
+
+.ix-section .grid-lines {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.ix-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  /* Inset off the vertical grid line, matching .section-header (48px). */
+  padding: 0 48px;
+}
+
+.ix-col {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.ix-col-label {
+  display: block;
+  margin-bottom: 16px;
+}
+
+.ix-status {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* ─── Drop zone ─── */
+.ix-drop {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.015);
+  min-height: 440px;
+  display: flex;
+  align-items: stretch;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.ix-drop--empty {
+  border-style: dashed;
+  align-items: center;
+  justify-content: center;
+}
+
+.ix-drop--over {
+  border-color: var(--border-hover);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.ix-drop-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  padding: 24px;
+  pointer-events: none;
+}
+
+.ix-drop-prompt-alt {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.ix-drop-note {
+  margin: 12px 0 0;
+  font-family: "JetBrains Mono", "SF Mono", "Fira Code", Consolas, monospace;
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: none;
+}
+
+/* Scan line — sweeps the preview once while the demo is "reading". */
+.ix-scan {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -72px;
+  height: 72px;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.05) 60%,
+    rgba(255, 255, 255, 0.14) 100%
+  );
+  border-bottom: 1px solid rgba(255, 255, 255, 0.45);
+  animation: ix-scan-sweep linear forwards;
+}
+
+@keyframes ix-scan-sweep {
+  from { top: -72px; }
+  to { top: 100%; }
+}
+
+/* ─── Document preview ─── */
+.ix-doc {
+  flex: 1;
+  min-width: 0;
+  background: #0e0e12;
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+}
+
+.ix-doc-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.ix-doc-supplier {
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  margin: 0;
+}
+
+.ix-doc-tag {
+  flex-shrink: 0;
+}
+
+.ix-doc-meta {
+  display: flex;
+  gap: 40px;
+  padding: 20px 0 28px;
+}
+
+.ix-doc-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ix-doc-meta-value {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.ix-doc-rows {
+  border-top: 1px solid var(--border-color);
+}
+
+.ix-doc-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 20px;
+  align-items: baseline;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.ix-doc-row-desc {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.5;
+}
+
+.ix-doc-row-qty {
+  font-size: 11px;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+.ix-doc-row-amount {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.85);
+  white-space: nowrap;
+  text-align: right;
+  min-width: 72px;
+}
+
+.ix-doc-totals {
+  margin-top: auto;
+  padding-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ix-doc-total-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.ix-doc-total-row--grand {
+  padding-top: 12px;
+  border-top: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-size: 15px;
+}
+
+/* ─── Sample thumbnails ─── */
+.ix-thumbs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.ix-thumbs-cue {
+  display: block;
+  margin-top: 22px;
+  font-size: 11px;
+}
+
+.ix-thumb {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 18px 16px;
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+  border-radius: 0;
+}
+
+.ix-thumb:hover {
+  border-color: var(--border-hover);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.ix-thumb--active {
+  border-color: rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* Tiny document glyph — four ruled lines, no iconography needed. */
+.ix-thumb-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  max-width: 46px;
+  margin-bottom: 2px;
+}
+
+.ix-thumb-lines span {
+  display: block;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.ix-thumb-lines span:nth-child(1) { width: 100%; }
+.ix-thumb-lines span:nth-child(2) { width: 70%; }
+.ix-thumb-lines span:nth-child(3) { width: 85%; }
+.ix-thumb-lines span:nth-child(4) { width: 55%; }
+
+.ix-thumb--active .ix-thumb-lines span,
+.ix-thumb:hover .ix-thumb-lines span {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.ix-thumb-name {
+  font-size: 14px;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+
+.ix-thumb-ref {
+  font-size: 10px;
+}
+
+/* ─── Extracted fields ─── */
+.ix-fields {
+  border-top: 1px solid var(--border-color);
+  min-height: 440px;
+}
+
+/* ─── Idle placeholder ───
+ * A ghosted echo of the real field structure so the column reads as intentional
+ * before anything is selected. Unmounts outright the moment a sample is picked,
+ * rather than crossfading against the real rows animating in. */
+.ix-ghost {
+  position: relative;
+}
+
+.ix-ghost-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding: 15px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.ix-ghost-row--total {
+  padding: 22px 0;
+}
+
+.ix-ghost-bar {
+  display: block;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.ix-ghost-bar--label {
+  width: 88px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.07);
+  flex-shrink: 0;
+}
+
+.ix-ghost-bar--value {
+  max-width: 62%;
+}
+
+.ix-ghost-bar--total {
+  width: 34%;
+  height: 26px;
+}
+
+.ix-ghost-table {
+  padding: 8px 0 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Mirrors .ix-items-head / .ix-items-row so the ghost sits on the same rhythm
+   as the table it stands in for. */
+.ix-ghost-table-row {
+  display: grid;
+  grid-template-columns: 1fr 44px 84px 84px;
+  gap: 12px;
+  align-items: center;
+  padding: 9px 0;
+}
+
+.ix-ghost-table-row--head {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.ix-ghost-table-row--head .ix-ghost-bar {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.ix-ghost-table-row + .ix-ghost-table-row {
+  border-top: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.ix-ghost-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 24px;
+  pointer-events: none;
+}
+
+.ix-field {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 24px;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--border-color);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.ix-field--in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.ix-field-value {
+  font-size: 15px;
+  text-align: right;
+  color: var(--text-primary);
+  min-width: 0;
+}
+
+.ix-field--total {
+  align-items: center;
+  padding: 20px 0;
+}
+
+.ix-total-value {
+  font-size: 36px;
+  line-height: 1;
+}
+
+/* Line-items table — revealed as one step. */
+.ix-items {
+  border-bottom: 1px solid var(--border-color);
+  padding: 8px 0 14px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.ix-items--in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.ix-items-head,
+.ix-items-row {
+  display: grid;
+  grid-template-columns: 1fr 44px 84px 84px;
+  gap: 12px;
+  align-items: baseline;
+  padding: 9px 0;
+}
+
+.ix-items-head {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.ix-items-head span:not(:first-child) {
+  text-align: right;
+}
+
+.ix-items-row + .ix-items-row {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.ix-items-desc {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.5;
+}
+
+.ix-items-num {
+  font-family: "JetBrains Mono", "SF Mono", "Fira Code", Consolas, monospace;
+  font-size: 12px;
+  text-align: right;
+  color: rgba(255, 255, 255, 0.85);
+  white-space: nowrap;
+}
+
+/* ─── Actions ─── */
+.ix-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+}
+
+.ix-timing {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.ix-timing--in {
+  opacity: 1;
+}
+
+.ix-export {
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.ix-export:disabled {
+  cursor: not-allowed;
+  opacity: 0.3;
+  border-color: var(--border-color);
+}
+
+.ix-export:disabled:hover {
+  transform: none;
+  background: transparent;
+  border-color: var(--border-color);
+}
+
+.ix-aside {
+  margin: 20px 0 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  max-width: 46ch;
+}
+
+/* ─── Delivery shapes ───
+ * Cards reuse .service-card / .service-name / .service-desc from globals.css
+ * unchanged. Only the grid is new, because .services-grid is 4-across. */
+.ix-shapes {
+  padding-bottom: 70px;
+}
+
+.ix-shapes .section-header {
+  padding-bottom: 28px;
+}
+
+.ix-shapes-intro {
+  margin: 0 0 44px;
+  padding-left: 48px;
+  max-width: 60ch;
+  font-size: 17px;
+  line-height: 1.85;
+  color: var(--text-secondary);
+}
+
+/* Hyphenated words in a card title stay whole; the title still wraps at
+   spaces. Applied per-token, so it can never force an overflow the way
+   nowrap on the whole title could. */
+.ix-keep {
+  white-space: nowrap;
+}
+
+.ix-shapes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* The closing line names the reader's actual problem, so it steps up from the
+   intro on colour, size and tracking rather than sitting at body weight. */
+.ix-shapes-close {
+  margin: 44px 0 0;
+  padding-left: 48px;
+  max-width: 46ch;
+  font-size: 22px;
+  line-height: 1.5;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+}
+
+/* ─── Outro ─── */
+.ix-outro {
+  padding-top: 40px;
+  padding-bottom: 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 24px;
+}
+
+.ix-outro .work-back {
+  padding-left: 48px;
+}
+
+/* Present and honest, deliberately quiet. */
+.ix-disclosure {
+  margin: 0;
+  padding-right: 48px;
+  font-size: 11px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.28);
+  text-align: right;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 1024px) {
+  .ix-grid {
+    grid-template-columns: 1fr;
+    gap: 44px;
+    padding: 0 32px;
+  }
+  .ix-drop,
+  .ix-fields {
+    min-height: 0;
+  }
+  .ix-fields {
+    padding-bottom: 4px;
+  }
+  /* globals.css drops the right border on every 2nd .service-card at this
+     breakpoint for the homepage's 2-across grid. This grid stays 3-across, so
+     that rule would strip the middle card's border mid-row. Overridden here
+     rather than by touching the shared rule. */
+  .ix-shapes-grid .service-card:nth-child(2n) {
+    border-right: 1px solid var(--border-color);
+  }
+  .ix-shapes-grid .service-card:last-child {
+    border-right: none;
+  }
+  .ix-shapes-grid .service-card {
+    padding: 44px 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .ix-grid {
+    padding: 0 24px;
+  }
+  .ix-doc {
+    padding: 28px 20px;
+  }
+  .ix-doc-row {
+    grid-template-columns: 1fr auto;
+    row-gap: 6px;
+  }
+  .ix-doc-row-qty {
+    grid-column: 1;
+  }
+  .ix-doc-row-amount {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: center;
+  }
+  .ix-thumbs {
+    grid-template-columns: 1fr;
+  }
+  .ix-items-head,
+  .ix-items-row {
+    grid-template-columns: 1fr 36px 72px 72px;
+    gap: 8px;
+  }
+  .ix-items-desc,
+  .ix-items-num {
+    font-size: 11px;
+  }
+  .ix-total-value {
+    font-size: 28px;
+  }
+  .ix-actions {
+    gap: 14px;
+  }
+  .ix-export {
+    margin-left: 0;
+    width: 100%;
+    text-align: center;
+  }
+  .ix-outro {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .ix-outro .work-back {
+    padding-left: 24px;
+  }
+  .ix-disclosure {
+    padding-left: 24px;
+    padding-right: 24px;
+    text-align: left;
+  }
+  .ix-shapes-grid {
+    grid-template-columns: 1fr;
+  }
+  /* Undo the 1024 override — stacked cards take the site's standard
+     border-bottom treatment from globals.css. */
+  .ix-shapes-grid .service-card:nth-child(2n) {
+    border-right: none;
+  }
+  .ix-shapes-intro,
+  .ix-shapes-close {
+    padding-left: 24px;
+  }
+  .ix-shapes-close {
+    font-size: 19px;
+  }
+  .ix-ghost-table-row {
+    grid-template-columns: 1fr 36px 72px 72px;
+    gap: 8px;
+  }
+}
+
+/* Respect reduced-motion: the sequence still runs, it just doesn't move. */
+@media (prefers-reduced-motion: reduce) {
+  .ix-scan {
+    display: none;
+  }
+  .ix-field,
+  .ix-items {
+    transform: none;
+    transition: opacity 0.01s linear;
+  }
+}
